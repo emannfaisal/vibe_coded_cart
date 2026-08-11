@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { createClient } from '@/lib/supabase/client';
 import {
   ShoppingBag,
   Grid,
@@ -20,16 +21,59 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const pathname = usePathname();
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    if (pathname === '/admin/login') {
+      setIsAuthenticated(true);
+      return;
+    }
+
+    const checkAuth = async () => {
+      const supabase = createClient();
+      let hasSession = false;
+      if (supabase) {
+        try {
+          const { data: { session } } = await supabase.auth.getSession();
+          if (session) hasSession = true;
+        } catch (err) {}
+      }
+
+      const localAuth = typeof window !== 'undefined' ? localStorage.getItem('petal_admin_auth') : null;
+      if (hasSession || localAuth === 'true') {
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+        router.push('/admin/login');
+      }
+    };
+
+    checkAuth();
+  }, [pathname, router]);
 
   // If on login page, render full screen without dashboard shell
   if (pathname === '/admin/login') {
     return <>{children}</>;
   }
 
+  // Show a dark loading spinner while checking security credentials
+  if (isAuthenticated === null || !isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-8 h-8 border-2 border-rose-500 border-t-transparent rounded-full animate-spin" />
+          <span className="text-xs text-slate-400 font-mono uppercase tracking-wider">Verifying Admin Access...</span>
+        </div>
+      </div>
+    );
+  }
+
   const handleLogout = () => {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('petal_admin_auth');
     }
+    const supabase = createClient();
+    if (supabase) supabase.auth.signOut();
     router.push('/admin/login');
   };
 
