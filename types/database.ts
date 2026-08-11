@@ -37,6 +37,7 @@ export interface OrderItem {
   price_at_purchase: number;
   quantity: number;
   custom_field_values: Record<string, string>;
+  created_at?: string;
   product?: Product;
 }
 

@@ -393,8 +393,9 @@ export async function createOrder(
       const orderItemsToInsert = items.map((item) => ({
         order_id: orderData.id,
         product_id: item.product.id,
+        product_name_snapshot: item.product.name,
+        price_at_purchase: item.product.price,
         quantity: item.quantity,
-        unit_price: item.product.price,
         custom_field_values: item.customFieldValues,
       }));
 
@@ -426,8 +427,9 @@ export async function createOrder(
       id: `item-mock-${idx}`,
       order_id: `ord-mock-${Date.now()}`,
       product_id: item.product.id,
+      product_name_snapshot: item.product.name,
+      price_at_purchase: item.product.price,
       quantity: item.quantity,
-      unit_price: item.product.price,
       custom_field_values: item.customFieldValues,
       created_at: new Date().toISOString(),
       product: item.product,
