@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { getCategories, getProducts, getSiteSettings } from '@/lib/supabase/api';
 import { Category, Product, SiteSettings } from '@/types/database';
 import { ProductCard } from '@/components/ProductCard';
+import { KineticTextReveal } from '@/components/ui/kinetic-text-reveal';
 import {
   Sparkles,
   ArrowRight,
@@ -120,24 +121,31 @@ export default function HomePage() {
             <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-rose-100/80 border border-rose-200 text-rose-800 text-xs font-semibold tracking-wider uppercase shadow-sm">
                 <Sparkles className="w-3.5 h-3.5 text-rose-500" />
-                <span>Bespoke Digital Artistry</span>
+                <KineticTextReveal text="Bespoke Digital Artistry" splitBy="words" stagger={0.06} distance={10} delay={0.1} />
               </div>
 
               <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-obsidian-950 leading-[1.15]">
-                Custom Design Creations <br />
-                <span className="italic font-normal text-rose-700 font-serif">Tailored for Your Moments</span>
+                <KineticTextReveal text="Custom Design Creations" splitBy="words" stagger={0.08} distance={22} delay={0.2} />
+                <br />
+                <KineticTextReveal text="Tailored for Your Moments" splitBy="words" stagger={0.08} distance={22} delay={0.45} className="italic font-normal text-rose-700 font-serif" />
               </h1>
 
-              <p className="text-obsidian-800/80 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                {settings.tagline || 'Exquisite custom-made wedding invitations, greeting cards, and bespoke digital stationery. Handcrafted individually by our studio.'}
-              </p>
+              <div className="text-obsidian-800/80 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                <KineticTextReveal
+                  text={settings.tagline || 'Exquisite custom-made wedding invitations, greeting cards, and bespoke digital stationery. Handcrafted individually by our studio.'}
+                  splitBy="words"
+                  stagger={0.035}
+                  distance={14}
+                  delay={0.6}
+                />
+              </div>
 
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
                 <Link
                   href="/shop"
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl bg-obsidian-900 text-cream-50 hover:bg-rose-600 text-sm font-semibold tracking-wide shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-0.5"
                 >
-                  <span>Explore Shop Catalog</span>
+                  <KineticTextReveal text="Explore Shop Catalog" splitBy="words" distance={10} delay={0.7} />
                   <ArrowRight className="w-4 h-4 text-rose-300" />
                 </Link>
 
@@ -145,23 +153,35 @@ export default function HomePage() {
                   href="#how-it-works"
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 rounded-2xl bg-cream-200/80 hover:bg-rose-100 text-obsidian-900 border border-rose-200/70 text-sm font-semibold transition-all"
                 >
-                  <span>How Custom Ordering Works</span>
+                  <KineticTextReveal text="How Custom Ordering Works" splitBy="words" distance={10} delay={0.8} />
                 </a>
               </div>
 
               {/* Trust Indicators */}
               <div className="pt-8 border-t border-rose-200/50 grid grid-cols-3 gap-4 text-left max-w-xl mx-auto lg:mx-0">
                 <div>
-                  <span className="font-serif text-xl font-bold text-obsidian-900 block">100%</span>
-                  <span className="text-xs text-obsidian-800/70">Custom Tailored Text</span>
+                  <span className="font-serif text-xl font-bold text-obsidian-900 block">
+                    <KineticTextReveal text="100%" splitBy="characters" stagger={0.06} distance={10} delay={0.85} />
+                  </span>
+                  <span className="text-xs text-obsidian-800/70">
+                    <KineticTextReveal text="Custom Tailored Text" splitBy="words" stagger={0.04} distance={10} delay={0.9} />
+                  </span>
                 </div>
                 <div>
-                  <span className="font-serif text-xl font-bold text-obsidian-900 block">Fast</span>
-                  <span className="text-xs text-obsidian-800/70">WhatsApp Delivery</span>
+                  <span className="font-serif text-xl font-bold text-obsidian-900 block">
+                    <KineticTextReveal text="Fast" splitBy="characters" stagger={0.06} distance={10} delay={0.95} />
+                  </span>
+                  <span className="text-xs text-obsidian-800/70">
+                    <KineticTextReveal text="WhatsApp Delivery" splitBy="words" stagger={0.04} distance={10} delay={1.0} />
+                  </span>
                 </div>
                 <div>
-                  <span className="font-serif text-xl font-bold text-obsidian-900 block">PKR</span>
-                  <span className="text-xs text-obsidian-800/70">Manual Local Payments</span>
+                  <span className="font-serif text-xl font-bold text-obsidian-900 block">
+                    <KineticTextReveal text="PKR" splitBy="characters" stagger={0.06} distance={10} delay={1.05} />
+                  </span>
+                  <span className="text-xs text-obsidian-800/70">
+                    <KineticTextReveal text="Manual Local Payments" splitBy="words" stagger={0.04} distance={10} delay={1.1} />
+                  </span>
                 </div>
               </div>
             </div>
@@ -179,9 +199,15 @@ export default function HomePage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-obsidian-950/80 via-transparent to-transparent pointer-events-none" />
                 <div className="absolute bottom-6 left-6 right-6 p-5 rounded-2xl glass-panel text-obsidian-900 space-y-1 z-10">
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-rose-600">Featured Design</span>
-                  <h3 className="font-serif text-lg font-bold">{mainFeatured?.name || 'Ethereal Botanical Wedding Suite'}</h3>
-                  <p className="text-xs text-obsidian-800/80">Customized with Bride & Groom names, date & venue details.</p>
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-rose-600 block">
+                    <KineticTextReveal text="Featured Design" splitBy="words" distance={8} delay={0.5} />
+                  </span>
+                  <h3 className="font-serif text-lg font-bold">
+                    <KineticTextReveal text={mainFeatured?.name || 'Ethereal Botanical Wedding Suite'} splitBy="words" distance={12} delay={0.6} />
+                  </h3>
+                  <p className="text-xs text-obsidian-800/80">
+                    <KineticTextReveal text="Customized with Bride & Groom names, date & venue details." splitBy="words" distance={10} delay={0.7} />
+                  </p>
                 </div>
               </div>
             </div>
@@ -193,12 +219,14 @@ export default function HomePage() {
       {/* Categories Showcase */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto space-y-3 mb-12">
-          <span className="text-xs font-semibold uppercase tracking-widest text-rose-600">Curated Collections</span>
+          <span className="text-xs font-semibold uppercase tracking-widest text-rose-600 block">
+            <KineticTextReveal text="Curated Collections" splitBy="words" distance={10} delay={0.2} />
+          </span>
           <h2 className="font-serif text-3xl sm:text-4xl font-bold text-obsidian-950">
-            Browse Design Categories
+            <KineticTextReveal text="Browse Design Categories" splitBy="words" distance={18} delay={0.3} />
           </h2>
           <p className="text-obsidian-800/70 text-sm">
-            Select a collection below to view products tailored specifically for your celebration or business.
+            <KineticTextReveal text="Select a collection below to view products tailored specifically for your celebration or business." splitBy="words" distance={12} delay={0.4} />
           </p>
         </div>
 
@@ -219,10 +247,10 @@ export default function HomePage() {
 
               <div className="relative z-10 space-y-1">
                 <h3 className="font-serif text-xl font-bold text-cream-50 group-hover:text-rose-200 transition-colors">
-                  {cat.name}
+                  <KineticTextReveal text={cat.name} splitBy="words" distance={12} delay={0.2} />
                 </h3>
                 <span className="inline-flex items-center gap-1 text-xs font-medium text-rose-300">
-                  <span>Explore Collection</span>
+                  <KineticTextReveal text="Explore Collection" splitBy="words" distance={8} delay={0.3} />
                   <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </span>
               </div>
@@ -235,23 +263,25 @@ export default function HomePage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
           <div>
-            <span className="text-xs font-semibold uppercase tracking-widest text-rose-600">Popular Creations</span>
+            <span className="text-xs font-semibold uppercase tracking-widest text-rose-600 block">
+              <KineticTextReveal text="Popular Creations" splitBy="words" distance={10} delay={0.2} />
+            </span>
             <h2 className="font-serif text-3xl sm:text-4xl font-bold text-obsidian-950 mt-1">
-              Featured Custom Products
+              <KineticTextReveal text="Featured Custom Products" splitBy="words" distance={18} delay={0.3} />
             </h2>
           </div>
           <Link
             href="/shop"
             className="inline-flex items-center gap-2 text-sm font-semibold text-rose-700 hover:text-rose-900 transition-colors"
           >
-            <span>View All Storefront Products</span>
+            <KineticTextReveal text="View All Storefront Products" splitBy="words" distance={10} delay={0.4} />
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
 
         {loading ? (
           <div className="py-12 text-center text-xs text-obsidian-800/60 font-medium">
-            Loading products catalog...
+            <KineticTextReveal text="Loading products catalog..." splitBy="words" distance={8} />
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -265,12 +295,14 @@ export default function HomePage() {
       {/* How It Works Section */}
       <section id="how-it-works" className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto space-y-3 mb-12">
-          <span className="text-xs font-semibold uppercase tracking-widest text-rose-600">Seamless & Personal</span>
+          <span className="text-xs font-semibold uppercase tracking-widest text-rose-600 block">
+            <KineticTextReveal text="Seamless & Personal" splitBy="words" distance={10} delay={0.2} />
+          </span>
           <h2 className="font-serif text-3xl sm:text-4xl font-bold text-obsidian-950">
-            How Custom Ordering Works
+            <KineticTextReveal text="How Custom Ordering Works" splitBy="words" distance={18} delay={0.3} />
           </h2>
           <p className="text-obsidian-800/70 text-sm">
-            We don't do instant cookie-cutter downloads. Every design is custom built by our lead designer with your personal text details.
+            <KineticTextReveal text="We don't do instant cookie-cutter downloads. Every design is custom built by our lead designer with your personal text details." splitBy="words" distance={12} delay={0.4} />
           </p>
         </div>
 
@@ -280,66 +312,66 @@ export default function HomePage() {
             
             {/* Step 1 */}
             <div className="p-6 sm:p-8 flex flex-col justify-start space-y-3 bg-[#f6f4ee] hover:bg-[#f2efe5] transition-colors">
-              <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-rose-700/80">
-                STEP 01
+              <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-rose-700/80 block">
+                <KineticTextReveal text="STEP 01" splitBy="characters" stagger={0.05} distance={8} delay={0.2} />
               </span>
               <h3 className="font-serif text-base sm:text-lg font-bold text-obsidian-950 leading-snug">
-                Browse & Select
+                <KineticTextReveal text="Browse & Select" splitBy="words" distance={12} delay={0.3} />
               </h3>
               <p className="text-xs text-obsidian-800/75 leading-relaxed font-sans">
-                Explore our boutique catalog and pick the invitation or greeting card design you love.
+                <KineticTextReveal text="Explore our boutique catalog and pick the invitation or greeting card design you love." splitBy="words" distance={10} delay={0.4} />
               </p>
             </div>
 
             {/* Step 2 */}
             <div className="p-6 sm:p-8 flex flex-col justify-start space-y-3 bg-[#f6f4ee] hover:bg-[#f2efe5] transition-colors">
-              <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-rose-700/80">
-                STEP 02
+              <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-rose-700/80 block">
+                <KineticTextReveal text="STEP 02" splitBy="characters" stagger={0.05} distance={8} delay={0.3} />
               </span>
               <h3 className="font-serif text-base sm:text-lg font-bold text-obsidian-950 leading-snug">
-                Fill Custom Text
+                <KineticTextReveal text="Fill Custom Text" splitBy="words" distance={12} delay={0.4} />
               </h3>
               <p className="text-xs text-obsidian-800/75 leading-relaxed font-sans">
-                Provide names, dates, venue, or special messaging in the dynamic product customization form before adding to cart.
+                <KineticTextReveal text="Provide names, dates, venue, or special messaging in the dynamic product customization form before adding to cart." splitBy="words" distance={10} delay={0.5} />
               </p>
             </div>
 
             {/* Step 3 */}
             <div className="p-6 sm:p-8 flex flex-col justify-start space-y-3 bg-[#f6f4ee] hover:bg-[#f2efe5] transition-colors">
-              <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-rose-700/80">
-                STEP 03
+              <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-rose-700/80 block">
+                <KineticTextReveal text="STEP 03" splitBy="characters" stagger={0.05} distance={8} delay={0.4} />
               </span>
               <h3 className="font-serif text-base sm:text-lg font-bold text-obsidian-950 leading-snug">
-                Guest Checkout
+                <KineticTextReveal text="Guest Checkout" splitBy="words" distance={12} delay={0.5} />
               </h3>
               <p className="text-xs text-obsidian-800/75 leading-relaxed font-sans">
-                Enter your contact details (WhatsApp phone & optional email) to place your pending order. No account login needed.
+                <KineticTextReveal text="Enter your contact details (WhatsApp phone & optional email) to place your pending order. No account login needed." splitBy="words" distance={10} delay={0.6} />
               </p>
             </div>
 
             {/* Step 4 */}
             <div className="p-6 sm:p-8 flex flex-col justify-start space-y-3 bg-[#f6f4ee] hover:bg-[#f2efe5] transition-colors">
-              <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-rose-700/80">
-                STEP 04
+              <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-rose-700/80 block">
+                <KineticTextReveal text="STEP 04" splitBy="characters" stagger={0.05} distance={8} delay={0.5} />
               </span>
               <h3 className="font-serif text-base sm:text-lg font-bold text-obsidian-950 leading-snug">
-                Confirm Payment
+                <KineticTextReveal text="Confirm Payment" splitBy="words" distance={12} delay={0.6} />
               </h3>
               <p className="text-xs text-obsidian-800/75 leading-relaxed font-sans">
-                Email or WhatsApp us to transfer payment (JazzCash, Easypaisa, or Bank Transfer) with your order reference.
+                <KineticTextReveal text="Email or WhatsApp us to transfer payment (JazzCash, Easypaisa, or Bank Transfer) with your order reference." splitBy="words" distance={10} delay={0.7} />
               </p>
             </div>
 
             {/* Step 5 */}
             <div className="p-6 sm:p-8 flex flex-col justify-start space-y-3 bg-[#f6f4ee] hover:bg-[#f2efe5] transition-colors">
-              <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-rose-700/80">
-                STEP 05
+              <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-rose-700/80 block">
+                <KineticTextReveal text="STEP 05" splitBy="characters" stagger={0.05} distance={8} delay={0.6} />
               </span>
               <h3 className="font-serif text-base sm:text-lg font-bold text-obsidian-950 leading-snug">
-                Receive Final Design
+                <KineticTextReveal text="Receive Final Design" splitBy="words" distance={12} delay={0.7} />
               </h3>
               <p className="text-xs text-obsidian-800/75 leading-relaxed font-sans">
-                Our designer hand-crafts your high-resolution custom files and delivers them directly via WhatsApp/email!
+                <KineticTextReveal text="Our designer hand-crafts your high-resolution custom files and delivers them directly via WhatsApp/email!" splitBy="words" distance={10} delay={0.8} />
               </p>
             </div>
 
@@ -351,19 +383,21 @@ export default function HomePage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="p-8 sm:p-12 rounded-3xl bg-obsidian-900 text-cream-50 flex flex-col md:flex-row items-center justify-between gap-8 border border-rose-900/40 shadow-2xl">
           <div className="space-y-3 text-center md:text-left max-w-xl">
-            <span className="text-xs font-semibold uppercase tracking-widest text-rose-300">Have a custom inquiry?</span>
+            <span className="text-xs font-semibold uppercase tracking-widest text-rose-300 block">
+              <KineticTextReveal text="Have a custom inquiry?" splitBy="words" distance={10} delay={0.2} />
+            </span>
             <h3 className="font-serif text-2xl sm:text-3xl font-bold">
-              Need a completely bespoke design concept?
+              <KineticTextReveal text="Need a completely bespoke design concept?" splitBy="words" distance={16} delay={0.3} />
             </h3>
             <p className="text-cream-200/80 text-sm">
-              We also create custom colorways, custom stationery sets, and bespoke web interfaces upon request.
+              <KineticTextReveal text="We also create custom colorways, custom stationery sets, and bespoke web interfaces upon request." splitBy="words" distance={12} delay={0.4} />
             </p>
           </div>
           <a
             href={`mailto:${settings.contact_email}?subject=Bespoke%20Design%20Inquiry%20-%20Petal%20%26%20Ink`}
             className="px-8 py-4 rounded-2xl bg-rose-500 hover:bg-rose-400 text-white font-semibold text-sm transition-all shadow-lg shrink-0"
           >
-            Email Studio Directly
+            <KineticTextReveal text="Email Studio Directly" splitBy="words" distance={10} delay={0.5} />
           </a>
         </div>
       </section>
