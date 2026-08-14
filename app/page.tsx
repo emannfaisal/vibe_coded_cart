@@ -210,8 +210,8 @@ export default function HomePage() {
       </section>
 
       {/* How It Works Section */}
-      <section id="how-it-works" className="bg-gradient-to-b from-cream-200/50 to-rose-50/50 py-20 rounded-3xl max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border border-rose-200/60 shadow-soft">
-        <div className="text-center max-w-2xl mx-auto space-y-3 mb-16">
+      <section id="how-it-works" className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center max-w-2xl mx-auto space-y-3 mb-12">
           <span className="text-xs font-semibold uppercase tracking-widest text-rose-600">Seamless & Personal</span>
           <h2 className="font-serif text-3xl sm:text-4xl font-bold text-obsidian-950">
             How Custom Ordering Works
@@ -221,63 +221,76 @@ export default function HomePage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-6 relative">
-          
-          {/* Step 1 */}
-          <div className="p-6 rounded-2xl bg-white/80 border border-rose-100 shadow-sm space-y-3 relative">
-            <div className="w-10 h-10 rounded-xl bg-rose-100 text-rose-800 flex items-center justify-center font-bold font-serif text-lg">
-              1
+        {/* Grid divider layout format matching reference image */}
+        <div className="bg-[#f6f4ee] border-y border-rose-900/15 rounded-2xl overflow-hidden shadow-soft">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 divide-y md:divide-y-0 md:divide-x divide-rose-900/15">
+            
+            {/* Step 1 */}
+            <div className="p-6 sm:p-8 flex flex-col justify-start space-y-3 bg-[#f6f4ee] hover:bg-[#f2efe5] transition-colors">
+              <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-rose-700/80">
+                STEP 01
+              </span>
+              <h3 className="font-serif text-base sm:text-lg font-bold text-obsidian-950 leading-snug">
+                Browse & Select
+              </h3>
+              <p className="text-xs text-obsidian-800/75 leading-relaxed font-sans">
+                Explore our boutique catalog and pick the invitation or greeting card design you love.
+              </p>
             </div>
-            <h3 className="font-serif text-base font-bold text-obsidian-900">Browse & Select</h3>
-            <p className="text-xs text-obsidian-800/70 leading-relaxed">
-              Explore our boutique catalog and pick the invitation or greeting card design you love.
-            </p>
-          </div>
 
-          {/* Step 2 */}
-          <div className="p-6 rounded-2xl bg-white/80 border border-rose-100 shadow-sm space-y-3 relative">
-            <div className="w-10 h-10 rounded-xl bg-rose-100 text-rose-800 flex items-center justify-center font-bold font-serif text-lg">
-              2
+            {/* Step 2 */}
+            <div className="p-6 sm:p-8 flex flex-col justify-start space-y-3 bg-[#f6f4ee] hover:bg-[#f2efe5] transition-colors">
+              <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-rose-700/80">
+                STEP 02
+              </span>
+              <h3 className="font-serif text-base sm:text-lg font-bold text-obsidian-950 leading-snug">
+                Fill Custom Text
+              </h3>
+              <p className="text-xs text-obsidian-800/75 leading-relaxed font-sans">
+                Provide names, dates, venue, or special messaging in the dynamic product customization form before adding to cart.
+              </p>
             </div>
-            <h3 className="font-serif text-base font-bold text-obsidian-900">Fill Custom Text</h3>
-            <p className="text-xs text-obsidian-800/70 leading-relaxed">
-              Provide names, dates, venue, or special messaging in the dynamic product customization form before adding to cart.
-            </p>
-          </div>
 
-          {/* Step 3 */}
-          <div className="p-6 rounded-2xl bg-white/80 border border-rose-100 shadow-sm space-y-3 relative">
-            <div className="w-10 h-10 rounded-xl bg-rose-100 text-rose-800 flex items-center justify-center font-bold font-serif text-lg">
-              3
+            {/* Step 3 */}
+            <div className="p-6 sm:p-8 flex flex-col justify-start space-y-3 bg-[#f6f4ee] hover:bg-[#f2efe5] transition-colors">
+              <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-rose-700/80">
+                STEP 03
+              </span>
+              <h3 className="font-serif text-base sm:text-lg font-bold text-obsidian-950 leading-snug">
+                Guest Checkout
+              </h3>
+              <p className="text-xs text-obsidian-800/75 leading-relaxed font-sans">
+                Enter your contact details (WhatsApp phone & optional email) to place your pending order. No account login needed.
+              </p>
             </div>
-            <h3 className="font-serif text-base font-bold text-obsidian-900">Guest Checkout</h3>
-            <p className="text-xs text-obsidian-800/70 leading-relaxed">
-              Enter your contact details (WhatsApp phone & optional email) to place your pending order. No account login needed.
-            </p>
-          </div>
 
-          {/* Step 4 */}
-          <div className="p-6 rounded-2xl bg-white/80 border border-rose-100 shadow-sm space-y-3 relative">
-            <div className="w-10 h-10 rounded-xl bg-rose-100 text-rose-800 flex items-center justify-center font-bold font-serif text-lg">
-              4
+            {/* Step 4 */}
+            <div className="p-6 sm:p-8 flex flex-col justify-start space-y-3 bg-[#f6f4ee] hover:bg-[#f2efe5] transition-colors">
+              <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-rose-700/80">
+                STEP 04
+              </span>
+              <h3 className="font-serif text-base sm:text-lg font-bold text-obsidian-950 leading-snug">
+                Confirm Payment
+              </h3>
+              <p className="text-xs text-obsidian-800/75 leading-relaxed font-sans">
+                Email or WhatsApp us to transfer payment (JazzCash, Easypaisa, or Bank Transfer) with your order reference.
+              </p>
             </div>
-            <h3 className="font-serif text-base font-bold text-obsidian-900">Confirm Payment</h3>
-            <p className="text-xs text-obsidian-800/70 leading-relaxed">
-              Email or WhatsApp us to transfer payment (JazzCash, Easypaisa, or Bank Transfer) with your order reference.
-            </p>
-          </div>
 
-          {/* Step 5 */}
-          <div className="p-6 rounded-2xl bg-white/80 border border-rose-100 shadow-sm space-y-3 relative">
-            <div className="w-10 h-10 rounded-xl bg-rose-100 text-rose-800 flex items-center justify-center font-bold font-serif text-lg">
-              5
+            {/* Step 5 */}
+            <div className="p-6 sm:p-8 flex flex-col justify-start space-y-3 bg-[#f6f4ee] hover:bg-[#f2efe5] transition-colors">
+              <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-rose-700/80">
+                STEP 05
+              </span>
+              <h3 className="font-serif text-base sm:text-lg font-bold text-obsidian-950 leading-snug">
+                Receive Final Design
+              </h3>
+              <p className="text-xs text-obsidian-800/75 leading-relaxed font-sans">
+                Our designer hand-crafts your high-resolution custom files and delivers them directly via WhatsApp/email!
+              </p>
             </div>
-            <h3 className="font-serif text-base font-bold text-obsidian-900">Receive Final Design</h3>
-            <p className="text-xs text-obsidian-800/70 leading-relaxed">
-              Our designer hand-crafts your high-resolution custom files and delivers them directly via WhatsApp/email!
-            </p>
-          </div>
 
+          </div>
         </div>
       </section>
 
