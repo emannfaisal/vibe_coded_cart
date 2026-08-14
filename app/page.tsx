@@ -76,7 +76,7 @@ export default function HomePage() {
               </h1>
 
               <p className="text-obsidian-800/80 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                {settings.tagline || 'Exquisite custom-made wedding invitations, greeting cards, landing page layouts, and order form designs. Handcrafted individually by our studio.'}
+                {settings.tagline || 'Exquisite custom-made wedding invitations, greeting cards, and bespoke digital stationery. Handcrafted individually by our studio.'}
               </p>
 
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
@@ -230,7 +230,7 @@ export default function HomePage() {
             </div>
             <h3 className="font-serif text-base font-bold text-obsidian-900">Browse & Select</h3>
             <p className="text-xs text-obsidian-800/70 leading-relaxed">
-              Explore our boutique catalog and pick the invitation, greeting card, or landing page design you love.
+              Explore our boutique catalog and pick the invitation or greeting card design you love.
             </p>
           </div>
 

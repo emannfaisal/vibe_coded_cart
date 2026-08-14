@@ -23,13 +23,6 @@ export const INITIAL_MOCK_CATEGORIES: Category[] = [
     image_url: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=800&auto=format&fit=crop',
     created_at: new Date().toISOString(),
   },
-  {
-    id: 'c0000000-0000-0000-0000-000000000003',
-    name: 'Landing Page Designs',
-    slug: 'landing-page-designs',
-    image_url: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop',
-    created_at: new Date().toISOString(),
-  },
 ];
 
 export const INITIAL_MOCK_PRODUCTS: Product[] = [
@@ -92,27 +85,6 @@ export const INITIAL_MOCK_PRODUCTS: Product[] = [
     ],
     is_active: true,
     is_featured: false,
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: 'f0000000-0000-0000-0000-000000000004',
-    category_id: 'c0000000-0000-0000-0000-000000000003',
-    name: 'Boutique Artisan Landing Page Template',
-    slug: 'boutique-artisan-landing-page-template',
-    description: 'A high-converting, mobile-optimized landing page design for creative businesses, bakers, and boutique brands. Includes custom hero text, services list, and WhatsApp order CTA.',
-    price: 12000,
-    image_urls: [
-      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop'
-    ],
-    custom_fields: [
-      { name: 'Business Name', type: 'text', required: true },
-      { name: 'Tagline / Headline', type: 'text', required: true },
-      { name: 'Primary Service / Offer', type: 'text', required: true },
-      { name: 'WhatsApp Number for CTA', type: 'text', required: true },
-      { name: 'Brand Color Preference', type: 'text', required: false }
-    ],
-    is_active: true,
-    is_featured: true,
     created_at: new Date().toISOString(),
   }
 ];

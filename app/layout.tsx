@@ -17,8 +17,8 @@ const jakarta = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: 'Petal & Ink | Custom Digital Design Studio',
-  description: 'Exquisite custom-made digital greeting cards, wedding invitations, and landing page designs tailored personally by our lead designer.',
-  keywords: ['wedding invitations', 'digital greeting cards', 'landing page design', 'petal & ink', 'custom design studio'],
+  description: 'Exquisite custom-made digital greeting cards and wedding invitations tailored personally by our lead designer.',
+  keywords: ['wedding invitations', 'digital greeting cards', 'petal & ink', 'custom design studio'],
 };
 
 export default function RootLayout({

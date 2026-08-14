@@ -44,15 +44,14 @@ export const Footer: React.FC = () => {
               </span>
             </div>
             <p className="text-cream-200/80 text-sm leading-relaxed max-w-md">
-              {settings.tagline || 'Bespoke custom digital design products. Every card, invitation, landing page, and order form is tailored individually to your specifications.'}
+              {settings.tagline || 'Bespoke custom digital design products. Every card and invitation is tailored individually to your specifications.'}
             </p>
             <div className="p-4 rounded-2xl bg-obsidian-800/80 border border-rose-300/10 space-y-1">
               <div className="flex items-center gap-2 text-rose-300 text-xs font-semibold uppercase tracking-wider">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>Custom Fulfillment Promise</span>
+                <span>Handcrafted Studio</span>
               </div>
-              <p className="text-xs text-cream-200/70">
-                No automated downloads. Our lead designer personally reviews your submitted text, crafts your design, and sends finalized files to your WhatsApp or email.
+              <p className="text-xs text-cream-200/70 leading-relaxed">
+                We take your exact custom details and create polished, high-resolution digital design files delivered straight to your WhatsApp or email.
               </p>
             </div>
           </div>
@@ -74,11 +73,6 @@ export const Footer: React.FC = () => {
               <li>
                 <Link href="/shop?category=greeting-cards" className="hover:text-rose-300 transition-colors">
                   Greeting Cards
-                </Link>
-              </li>
-              <li>
-                <Link href="/shop?category=landing-page-designs" className="hover:text-rose-300 transition-colors">
-                  Landing Page Designs
                 </Link>
               </li>
             </ul>

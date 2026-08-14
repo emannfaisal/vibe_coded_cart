@@ -92,7 +92,9 @@ export async function getCategories(): Promise<Category[]> {
     }
   }
 
-  const userCategories = getMockData<Category[]>(STORAGE_KEYS.CATEGORIES, INITIAL_MOCK_CATEGORIES);
+  const userCategories = getMockData<Category[]>(STORAGE_KEYS.CATEGORIES, INITIAL_MOCK_CATEGORIES).filter(
+    (c) => c.id !== 'c0000000-0000-0000-0000-000000000003' && c.slug !== 'landing-page-designs'
+  );
   const userMap = new Map(userCategories.map((c) => [c.id || c.slug, c]));
 
   let finalCategories: Category[] = [];
@@ -108,6 +110,7 @@ export async function getCategories(): Promise<Category[]> {
 
   // Merge remaining DB categories if not overridden
   for (const dbC of dbCategories) {
+    if (dbC.id === 'c0000000-0000-0000-0000-000000000003' || dbC.slug === 'landing-page-designs') continue;
     const key = dbC.id || dbC.slug;
     if (!processedKeys.has(key) && !userMap.has(key)) {
       processedKeys.add(key);
@@ -202,7 +205,12 @@ export async function getProducts(options?: { activeOnly?: boolean; featuredOnly
   }
 
   // Load user saved edits from LocalStorage
-  const userProducts = getMockData<Product[]>(STORAGE_KEYS.PRODUCTS, INITIAL_MOCK_PRODUCTS);
+  const userProducts = getMockData<Product[]>(STORAGE_KEYS.PRODUCTS, INITIAL_MOCK_PRODUCTS).filter(
+    (p) =>
+      p.id !== 'f0000000-0000-0000-0000-000000000004' &&
+      p.category_id !== 'c0000000-0000-0000-0000-000000000003' &&
+      p.slug !== 'boutique-artisan-landing-page-template'
+  );
   const userMap = new Map<string, Product>();
   for (const p of userProducts) {
     if (p.id) userMap.set(p.id, p);

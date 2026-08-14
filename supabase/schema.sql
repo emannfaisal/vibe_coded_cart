@@ -106,8 +106,7 @@ ON CONFLICT DO NOTHING;
 -- Seed Categories
 INSERT INTO categories (id, name, slug, image_url) VALUES
 ('c0000000-0000-0000-0000-000000000001', 'Wedding Invitations', 'wedding-invitations', 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800&auto=format&fit=crop'),
-('c0000000-0000-0000-0000-000000000002', 'Greeting Cards', 'greeting-cards', 'https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=800&auto=format&fit=crop'),
-('c0000000-0000-0000-0000-000000000003', 'Landing Page Designs', 'landing-page-designs', 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop')
+('c0000000-0000-0000-0000-000000000002', 'Greeting Cards', 'greeting-cards', 'https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=800&auto=format&fit=crop')
 ON CONFLICT (slug) DO NOTHING;
 
 -- Seed Products
@@ -170,26 +169,6 @@ INSERT INTO products (id, category_id, name, slug, description, price, image_url
   ]'::jsonb,
   true,
   false
-),
-(
-  'f0000000-0000-0000-0000-000000000004',
-  'c0000000-0000-0000-0000-000000000003',
-  'Boutique Artisan Landing Page Template',
-  'boutique-artisan-landing-page-template',
-  'A high-converting, mobile-optimized landing page design for creative businesses, bakers, and boutique brands. Includes custom hero text, services list, and WhatsApp order CTA.',
-  12000,
-  ARRAY[
-    'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop'
-  ],
-  '[
-    {"name": "Business Name", "type": "text", "required": true},
-    {"name": "Tagline / Headline", "type": "text", "required": true},
-    {"name": "Primary Service / Offer", "type": "text", "required": true},
-    {"name": "WhatsApp Number for CTA", "type": "text", "required": true},
-    {"name": "Brand Color Preference", "type": "text", "required": false}
-  ]'::jsonb,
-  true,
-  true
 )
 ON CONFLICT (slug) DO NOTHING;
 
