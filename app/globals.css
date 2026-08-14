@@ -47,46 +47,59 @@
   border: 1px solid rgba(242, 233, 216, 0.9);
 }
 
-/* Floating Animations for Hero PNG Elements */
-@keyframes floatGentle1 {
+/* Floating Animations for Confetti-scatter PNG Elements (Subtle 3-6px movement) */
+@keyframes floatScatter1 {
   0%, 100% {
-    transform: translateY(0px) rotate(0deg);
+    transform: translateY(0px);
   }
   50% {
-    transform: translateY(-14px) rotate(2.5deg);
+    transform: translateY(-5px);
   }
 }
 
-@keyframes floatGentle2 {
+@keyframes floatScatter2 {
   0%, 100% {
-    transform: translateY(0px) rotate(0deg);
+    transform: translateY(0px);
   }
   50% {
-    transform: translateY(-18px) rotate(-3deg);
+    transform: translateY(-6px);
   }
 }
 
-@keyframes floatGentle3 {
+@keyframes floatScatter3 {
   0%, 100% {
-    transform: translateY(0px) rotate(0deg);
+    transform: translateY(0px);
   }
   50% {
-    transform: translateY(-12px) rotate(4deg);
+    transform: translateY(-4px);
   }
 }
 
-.animate-float-1 {
-  animation: floatGentle1 5s ease-in-out infinite;
+@keyframes floatScatter4 {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5.5px);
+  }
 }
 
-.animate-float-2 {
-  animation: floatGentle2 6s ease-in-out infinite 0.8s;
+.animate-scatter-1 {
+  animation: floatScatter1 4.5s ease-in-out infinite;
 }
 
-.animate-float-3 {
-  animation: floatGentle3 5.5s ease-in-out infinite 1.6s;
+.animate-scatter-2 {
+  animation: floatScatter2 5.8s ease-in-out infinite;
+}
+
+.animate-scatter-3 {
+  animation: floatScatter3 4.2s ease-in-out infinite;
+}
+
+.animate-scatter-4 {
+  animation: floatScatter4 6.4s ease-in-out infinite;
 }
 
 .floating-png-shadow {
-  filter: drop-shadow(0 14px 20px rgba(180, 50, 70, 0.12)) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.04));
+  filter: drop-shadow(0 10px 16px rgba(180, 50, 70, 0.10)) drop-shadow(0 3px 6px rgba(0, 0, 0, 0.03));
 }

@@ -16,6 +16,47 @@ import {
   CreditCard,
 } from 'lucide-react';
 
+const FLOATING_ELEMENTS = [
+  // Top Left Edge (Featured)
+  { id: 1, src: '/images/floating/envelope.png', top: '3%', left: '2%', width: 110, rotate: '-8deg', opacity: 0.94, anim: 'animate-scatter-1', delay: '0s', dur: '5.2s', mobile: true },
+  // Top Center-Left (Small Heart)
+  { id: 2, src: '/images/floating/red-heart.png', top: '4%', left: '20%', width: 32, rotate: '12deg', opacity: 0.90, anim: 'animate-scatter-2', delay: '0.8s', dur: '4.6s', mobile: true },
+  // Top Center (Near Text - Soft Opacity)
+  { id: 3, src: '/images/floating/paper-note.png', top: '6%', left: '44%', width: 55, rotate: '-6deg', opacity: 0.58, anim: 'animate-scatter-3', delay: '1.5s', dur: '6.1s', mobile: false },
+  // Top Right Edge (Featured Paper Note)
+  { id: 4, src: '/images/floating/paper-note.png', top: '3%', right: '3%', width: 115, rotate: '11deg', opacity: 0.94, anim: 'animate-scatter-4', delay: '0.3s', dur: '5.6s', mobile: true },
+  // Top Right Inner (Small Heart)
+  { id: 5, src: '/images/floating/red-heart.png', top: '14%', right: '23%', width: 28, rotate: '-14deg', opacity: 0.88, anim: 'animate-scatter-1', delay: '2.1s', dur: '4.8s', mobile: false },
+  
+  // Mid Left Edge (Small Envelope)
+  { id: 6, src: '/images/floating/envelope.png', top: '24%', left: '1%', width: 44, rotate: '14deg', opacity: 0.88, anim: 'animate-scatter-2', delay: '1.1s', dur: '5.4s', mobile: false },
+  // Mid Headline Area (Small Heart - Soft Opacity)
+  { id: 7, src: '/images/floating/red-heart.png', top: '31%', left: '36%', width: 25, rotate: '-7deg', opacity: 0.55, anim: 'animate-scatter-3', delay: '2.7s', dur: '4.3s', mobile: false },
+  // Mid Right Edge (Medium Heart)
+  { id: 8, src: '/images/floating/red-heart.png', top: '27%', right: '1%', width: 52, rotate: '-12deg', opacity: 0.90, anim: 'animate-scatter-4', delay: '0.5s', dur: '6.3s', mobile: true },
+  
+  // Center Left Edge (Small Envelope)
+  { id: 9, src: '/images/floating/envelope.png', top: '48%', left: '1%', width: 42, rotate: '-10deg', opacity: 0.88, anim: 'animate-scatter-1', delay: '3.1s', dur: '5.1s', mobile: true },
+  // Center Paragraph Area (Small Note - Soft Opacity)
+  { id: 10, src: '/images/floating/paper-note.png', top: '45%', left: '26%', width: 38, rotate: '9deg', opacity: 0.55, anim: 'animate-scatter-2', delay: '1.9s', dur: '5.9s', mobile: false },
+  // Center Right (Featured Envelope)
+  { id: 11, src: '/images/floating/envelope.png', top: '52%', right: '4%', width: 95, rotate: '8deg', opacity: 0.92, anim: 'animate-scatter-3', delay: '0.7s', dur: '4.7s', mobile: true },
+  
+  // Lower Right Showcase (Small Heart)
+  { id: 12, src: '/images/floating/red-heart.png', top: '64%', right: '22%', width: 32, rotate: '14deg', opacity: 0.86, anim: 'animate-scatter-4', delay: '2.4s', dur: '5.7s', mobile: false },
+  // Lower Left Buttons (Medium Paper Note)
+  { id: 13, src: '/images/floating/paper-note.png', top: '73%', left: '3%', width: 62, rotate: '-13deg', opacity: 0.90, anim: 'animate-scatter-1', delay: '1.4s', dur: '4.9s', mobile: true },
+  // Lower Trust Indicators (Small Heart)
+  { id: 14, src: '/images/floating/red-heart.png', top: '79%', left: '27%', width: 26, rotate: '7deg', opacity: 0.88, anim: 'animate-scatter-2', delay: '3.6s', dur: '6.0s', mobile: false },
+  
+  // Bottom Center (Small Envelope)
+  { id: 15, src: '/images/floating/envelope.png', top: '83%', left: '46%', width: 36, rotate: '-5deg', opacity: 0.88, anim: 'animate-scatter-3', delay: '0.4s', dur: '5.3s', mobile: false },
+  // Bottom Right (Featured Heart)
+  { id: 16, src: '/images/floating/red-heart.png', top: '85%', right: '3%', width: 66, rotate: '-9deg', opacity: 0.92, anim: 'animate-scatter-4', delay: '2.9s', dur: '4.4s', mobile: true },
+  // Bottom Right Edge (Small Paper Note)
+  { id: 17, src: '/images/floating/paper-note.png', top: '88%', right: '27%', width: 40, rotate: '13deg', opacity: 0.88, anim: 'animate-scatter-1', delay: '1.8s', dur: '6.5s', mobile: false }
+];
+
 export default function HomePage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
@@ -60,53 +101,35 @@ export default function HomePage() {
         {/* Soft Background Orbs */}
         <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-gradient-to-tr from-rose-200/40 via-cream-200/50 to-sage-100/40 rounded-full blur-3xl -z-10 animate-pulse-slow" />
         
-        {/* Floating PNG Element 1: Pink Envelope with Heart (Top-Left Negative Space) */}
-        <div className="absolute top-2 left-2 sm:top-6 sm:left-6 lg:left-10 w-20 sm:w-28 lg:w-36 pointer-events-none opacity-95 animate-float-1 floating-png-shadow z-20 hidden md:block">
-          <Image
-            src="/images/floating/envelope.png"
-            alt=""
-            width={140}
-            height={140}
-            priority
-            className="w-full h-auto object-contain"
-          />
-        </div>
-
-        {/* Floating PNG Element 2: Scalloped Note Paper with Paperclip (Top-Right Negative Space) */}
-        <div className="absolute top-4 right-2 sm:top-8 sm:right-6 lg:right-12 w-24 sm:w-32 lg:w-40 pointer-events-none opacity-95 animate-float-2 floating-png-shadow z-20 hidden md:block">
-          <Image
-            src="/images/floating/paper-note.png"
-            alt=""
-            width={160}
-            height={160}
-            priority
-            className="w-full h-auto object-contain"
-          />
-        </div>
-
-        {/* Floating PNG Element 3: Red Heart Accent (Center/Bottom Negative Space) */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 lg:left-[51%] w-10 sm:w-14 lg:w-16 pointer-events-none opacity-95 animate-float-3 floating-png-shadow z-20 hidden sm:block">
-          <Image
-            src="/images/floating/red-heart.png"
-            alt=""
-            width={64}
-            height={64}
-            priority
-            className="w-full h-auto object-contain"
-          />
-        </div>
-
-        {/* Floating PNG Element 4: Small Red Heart (Top-Center Negative Space Accent) */}
-        <div className="absolute top-10 left-[40%] w-7 sm:w-9 pointer-events-none opacity-90 animate-float-1 floating-png-shadow z-20 hidden lg:block">
-          <Image
-            src="/images/floating/red-heart.png"
-            alt=""
-            width={36}
-            height={36}
-            priority
-            className="w-full h-auto object-contain"
-          />
-        </div>
+        {/* 17 Scattered Floating PNG Decorative Elements */}
+        {FLOATING_ELEMENTS.map((item) => (
+          <div
+            key={item.id}
+            style={{
+              position: 'absolute',
+              top: item.top,
+              left: item.left,
+              right: item.right,
+              width: `${item.width}px`,
+              opacity: item.opacity,
+              transform: `rotate(${item.rotate})`,
+              animationDelay: item.delay,
+              animationDuration: item.dur,
+            }}
+            className={`pointer-events-none ${item.anim} floating-png-shadow z-10 ${
+              item.mobile ? 'block w-7 sm:w-[var(--w-md)]' : 'hidden md:block'
+            }`}
+          >
+            <Image
+              src={item.src}
+              alt=""
+              width={item.width}
+              height={item.width}
+              priority
+              className="w-full h-auto object-contain"
+            />
+          </div>
+        ))}
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
