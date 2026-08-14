@@ -17,38 +17,26 @@ import {
 } from 'lucide-react';
 
 const FLOATING_ELEMENTS = [
-  // 1. Envelope (A) - Top Left Outer Edge [Mobile 1]
-  { id: 1, type: 'envelope', src: '/images/floating/envelope.png', top: '1%', left: '2%', width: 110, rotate: '-8deg', opacity: 0.94, anim: 'animate-scatter-1', delay: '0s', dur: '5.2s', mobile: true },
+  // 1. Envelope (A) - Far Top-Left (above pill badge, 0 text overlap)
+  { id: 1, type: 'envelope', src: '/images/floating/envelope.png', top: '1%', left: '1%', width: 105, rotate: '-8deg', opacity: 0.92, anim: 'animate-scatter-1', delay: '0s', dur: '5.2s', mobile: true },
   
-  // 2. Heart (B) - Top Center Outer Margin (Far above headline) [Mobile 2]
-  { id: 2, type: 'heart', src: '/images/floating/red-heart.png', top: '1%', left: '38%', width: 55, rotate: '12deg', opacity: 0.90, anim: 'animate-scatter-2', delay: '0.8s', dur: '4.6s', mobile: true },
+  // 2. Heart (B) - Far Top-Center (far above headline, 0 text overlap)
+  { id: 2, type: 'heart', src: '/images/floating/red-heart.png', top: '1%', left: '46%', width: 55, rotate: '12deg', opacity: 0.88, anim: 'animate-scatter-2', delay: '0.8s', dur: '4.6s', mobile: true },
   
-  // 3. Envelope (A) - Top Right Outer Edge (Far above invitation card) [Mobile 3]
-  { id: 3, type: 'envelope', src: '/images/floating/envelope.png', top: '1%', right: '3%', width: 105, rotate: '11deg', opacity: 0.94, anim: 'animate-scatter-4', delay: '0.3s', dur: '5.6s', mobile: true },
+  // 3. Envelope (A) - Far Top-Right (above invitation card, 0 image/text overlap)
+  { id: 3, type: 'envelope', src: '/images/floating/envelope.png', top: '1%', right: '1%', width: 100, rotate: '11deg', opacity: 0.92, anim: 'animate-scatter-4', delay: '0.3s', dur: '5.6s', mobile: true },
   
-  // 4. Heart (B) - Upper Mid Left Outer Margin (Far left of headline) [Mobile 4]
-  { id: 4, type: 'heart', src: '/images/floating/red-heart.png', top: '26%', left: '1%', width: 62, rotate: '-14deg', opacity: 0.90, anim: 'animate-scatter-3', delay: '1.5s', dur: '6.1s', mobile: true },
+  // 4. Heart (B) - Far Mid-Right (far right of invitation card, 0 image/text overlap)
+  { id: 4, type: 'heart', src: '/images/floating/red-heart.png', top: '38%', right: '1%', width: 62, rotate: '-14deg', opacity: 0.90, anim: 'animate-scatter-3', delay: '1.5s', dur: '6.1s', mobile: true },
   
-  // 5. Envelope (A) - Upper Mid Right Outer Margin (Far right of invitation card)
-  { id: 5, type: 'envelope', src: '/images/floating/envelope.png', top: '24%', right: '1%', width: 110, rotate: '14deg', opacity: 0.92, anim: 'animate-scatter-1', delay: '2.1s', dur: '4.8s', mobile: false },
+  // 5. Envelope (A) - Far Bottom-Right (below invitation card, 0 image/text overlap)
+  { id: 5, type: 'envelope', src: '/images/floating/envelope.png', top: '84%', right: '1%', width: 105, rotate: '14deg', opacity: 0.92, anim: 'animate-scatter-1', delay: '2.1s', dur: '4.8s', mobile: true },
   
-  // 6. Heart (B) - Mid Center Gutter (Empty vertical gap between text & card columns)
-  { id: 6, type: 'heart', src: '/images/floating/red-heart.png', top: '48%', left: '55%', width: 52, rotate: '-8deg', opacity: 0.88, anim: 'animate-scatter-2', delay: '1.1s', dur: '5.4s', mobile: false },
+  // 6. Heart (B) - Far Bottom-Left (far below trust indicators, 0 text overlap)
+  { id: 6, type: 'heart', src: '/images/floating/red-heart.png', top: '90%', left: '2%', width: 58, rotate: '-8deg', opacity: 0.88, anim: 'animate-scatter-2', delay: '1.1s', dur: '5.4s', mobile: true },
   
-  // 7. Envelope (A) - Mid Left Outer Margin (Far left of text column) [Mobile 5]
-  { id: 7, type: 'envelope', src: '/images/floating/envelope.png', top: '48%', left: '1%', width: 105, rotate: '-10deg', opacity: 0.92, anim: 'animate-scatter-3', delay: '2.7s', dur: '4.3s', mobile: true },
-  
-  // 8. Heart (B) - Mid Right Outer Margin (Far right of invitation card) [Mobile 6]
-  { id: 8, type: 'heart', src: '/images/floating/red-heart.png', top: '50%', right: '1%', width: 65, rotate: '15deg', opacity: 0.92, anim: 'animate-scatter-4', delay: '0.5s', dur: '6.3s', mobile: true },
-  
-  // 9. Envelope (A) - Lower Left Outer Margin (Far left below buttons) [Mobile 7]
-  { id: 9, type: 'envelope', src: '/images/floating/envelope.png', top: '72%', left: '1%', width: 100, rotate: '12deg', opacity: 0.92, anim: 'animate-scatter-1', delay: '1.9s', dur: '5.9s', mobile: true },
-  
-  // 10. Heart (B) - Bottom Center Outer Margin (Far below content area)
-  { id: 10, type: 'heart', src: '/images/floating/red-heart.png', top: '86%', left: '44%', width: 56, rotate: '-6deg', opacity: 0.90, anim: 'animate-scatter-2', delay: '3.1s', dur: '5.1s', mobile: false },
-  
-  // 11. Envelope (A) - Bottom Right Outer Edge (Far right below invitation card) [Mobile 8]
-  { id: 11, type: 'envelope', src: '/images/floating/envelope.png', top: '84%', right: '2%', width: 105, rotate: '-11deg', opacity: 0.92, anim: 'animate-scatter-3', delay: '0.7s', dur: '4.7s', mobile: true }
+  // 7. Envelope (A) - Center Gutter (empty gap between text column and card column, 0 text/image overlap)
+  { id: 7, type: 'envelope', src: '/images/floating/envelope.png', top: '56%', left: '56%', width: 95, rotate: '-10deg', opacity: 0.90, anim: 'animate-scatter-3', delay: '2.7s', dur: '4.3s', mobile: false }
 ];
 
 export default function HomePage() {
