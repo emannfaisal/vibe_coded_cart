@@ -60,6 +60,54 @@ export default function HomePage() {
         {/* Soft Background Orbs */}
         <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-gradient-to-tr from-rose-200/40 via-cream-200/50 to-sage-100/40 rounded-full blur-3xl -z-10 animate-pulse-slow" />
         
+        {/* Floating PNG Element 1: Pink Envelope with Heart (Top-Left Negative Space) */}
+        <div className="absolute top-2 left-2 sm:top-6 sm:left-6 lg:left-10 w-20 sm:w-28 lg:w-36 pointer-events-none opacity-95 animate-float-1 floating-png-shadow z-20 hidden md:block">
+          <Image
+            src="/images/floating/envelope.png"
+            alt=""
+            width={140}
+            height={140}
+            priority
+            className="w-full h-auto object-contain"
+          />
+        </div>
+
+        {/* Floating PNG Element 2: Scalloped Note Paper with Paperclip (Top-Right Negative Space) */}
+        <div className="absolute top-4 right-2 sm:top-8 sm:right-6 lg:right-12 w-24 sm:w-32 lg:w-40 pointer-events-none opacity-95 animate-float-2 floating-png-shadow z-20 hidden md:block">
+          <Image
+            src="/images/floating/paper-note.png"
+            alt=""
+            width={160}
+            height={160}
+            priority
+            className="w-full h-auto object-contain"
+          />
+        </div>
+
+        {/* Floating PNG Element 3: Red Heart Accent (Center/Bottom Negative Space) */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 lg:left-[51%] w-10 sm:w-14 lg:w-16 pointer-events-none opacity-95 animate-float-3 floating-png-shadow z-20 hidden sm:block">
+          <Image
+            src="/images/floating/red-heart.png"
+            alt=""
+            width={64}
+            height={64}
+            priority
+            className="w-full h-auto object-contain"
+          />
+        </div>
+
+        {/* Floating PNG Element 4: Small Red Heart (Top-Center Negative Space Accent) */}
+        <div className="absolute top-10 left-[40%] w-7 sm:w-9 pointer-events-none opacity-90 animate-float-1 floating-png-shadow z-20 hidden lg:block">
+          <Image
+            src="/images/floating/red-heart.png"
+            alt=""
+            width={36}
+            height={36}
+            priority
+            className="w-full h-auto object-contain"
+          />
+        </div>
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             

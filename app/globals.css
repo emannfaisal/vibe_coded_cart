@@ -46,3 +46,47 @@
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid rgba(242, 233, 216, 0.9);
 }
+
+/* Floating Animations for Hero PNG Elements */
+@keyframes floatGentle1 {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-14px) rotate(2.5deg);
+  }
+}
+
+@keyframes floatGentle2 {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-18px) rotate(-3deg);
+  }
+}
+
+@keyframes floatGentle3 {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(4deg);
+  }
+}
+
+.animate-float-1 {
+  animation: floatGentle1 5s ease-in-out infinite;
+}
+
+.animate-float-2 {
+  animation: floatGentle2 6s ease-in-out infinite 0.8s;
+}
+
+.animate-float-3 {
+  animation: floatGentle3 5.5s ease-in-out infinite 1.6s;
+}
+
+.floating-png-shadow {
+  filter: drop-shadow(0 14px 20px rgba(180, 50, 70, 0.12)) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.04));
+}
