@@ -92,9 +92,9 @@ export async function getCategories(): Promise<Category[]> {
     }
   }
 
-  const userCategories = getMockData<Category[]>(STORAGE_KEYS.CATEGORIES, INITIAL_MOCK_CATEGORIES).filter(
-    (c) => c.id !== 'c0000000-0000-0000-0000-000000000003' && c.slug !== 'landing-page-designs'
-  );
+  const userCategories = getMockData<Category[]>(STORAGE_KEYS.CATEGORIES, INITIAL_MOCK_CATEGORIES)
+    .filter((c) => c.id !== 'c0000000-0000-0000-0000-000000000003' && c.slug !== 'landing-page-designs')
+    .map((c) => (c.slug === 'greeting-cards' ? { ...c, image_url: '/images/thank-you-greeting-card.png' } : c));
   const userMap = new Map(userCategories.map((c) => [c.id || c.slug, c]));
 
   let finalCategories: Category[] = [];
@@ -114,7 +114,8 @@ export async function getCategories(): Promise<Category[]> {
     const key = dbC.id || dbC.slug;
     if (!processedKeys.has(key) && !userMap.has(key)) {
       processedKeys.add(key);
-      finalCategories.push(dbC);
+      const catObj = dbC.slug === 'greeting-cards' ? { ...dbC, image_url: '/images/thank-you-greeting-card.png' } : dbC;
+      finalCategories.push(catObj);
     }
   }
 

@@ -20,7 +20,7 @@ export const INITIAL_MOCK_CATEGORIES: Category[] = [
     id: 'c0000000-0000-0000-0000-000000000002',
     name: 'Greeting Cards',
     slug: 'greeting-cards',
-    image_url: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=800&auto=format&fit=crop',
+    image_url: '/images/thank-you-greeting-card.png',
     created_at: new Date().toISOString(),
   },
 ];
@@ -70,21 +70,20 @@ export const INITIAL_MOCK_PRODUCTS: Product[] = [
   {
     id: 'f0000000-0000-0000-0000-000000000003',
     category_id: 'c0000000-0000-0000-0000-000000000002',
-    name: 'Velvet Rose Anniversary Card',
-    slug: 'velvet-rose-anniversary-card',
-    description: 'A romantic digital greeting card customized with your personalized message, anniversary date, and recipient name.',
-    price: 1500,
+    name: 'Bespoke Floral Thank You Card',
+    slug: 'bespoke-floral-thank-you-card',
+    description: 'An elegant, dusty rose digital thank you card featuring delicate botanical line art, grid texture, and personalized confirmation messaging.',
+    price: 1800,
     image_urls: [
-      'https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=800&auto=format&fit=crop'
+      '/images/thank-you-greeting-card.png'
     ],
     custom_fields: [
       { name: 'Recipient Name', type: 'text', required: true },
-      { name: 'Sender Name', type: 'text', required: true },
-      { name: 'Personal Message', type: 'text', required: true },
-      { name: 'Anniversary Years', type: 'text', required: false }
+      { name: 'Sender Name / Studio Name', type: 'text', required: true },
+      { name: 'Personal Thank You Note', type: 'text', required: true }
     ],
     is_active: true,
-    is_featured: false,
+    is_featured: true,
     created_at: new Date().toISOString(),
   }
 ];

@@ -131,7 +131,7 @@ export default function AdminCategoriesPage() {
             >
               <div className="flex items-center gap-4">
                 <img
-                  src={cat.image_url || 'https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=800&auto=format&fit=crop'}
+                  src={cat.image_url || '/images/thank-you-greeting-card.png'}
                   alt=""
                   className="w-16 h-16 rounded-2xl object-cover bg-slate-900 border border-slate-800 shrink-0"
                 />

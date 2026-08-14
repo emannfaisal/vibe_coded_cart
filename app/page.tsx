@@ -157,7 +157,7 @@ export default function HomePage() {
               className="group relative rounded-3xl overflow-hidden aspect-[4/5] shadow-soft hover:shadow-xl transition-all duration-500 flex flex-col justify-end p-6 border border-rose-100"
             >
               <Image
-                src={cat.image_url || 'https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=800&auto=format&fit=crop'}
+                src={cat.image_url || '/images/thank-you-greeting-card.png'}
                 alt={cat.name}
                 fill
                 className="object-cover group-hover:scale-110 transition-transform duration-700"

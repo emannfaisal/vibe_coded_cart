@@ -106,7 +106,7 @@ ON CONFLICT DO NOTHING;
 -- Seed Categories
 INSERT INTO categories (id, name, slug, image_url) VALUES
 ('c0000000-0000-0000-0000-000000000001', 'Wedding Invitations', 'wedding-invitations', 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800&auto=format&fit=crop'),
-('c0000000-0000-0000-0000-000000000002', 'Greeting Cards', 'greeting-cards', 'https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=800&auto=format&fit=crop')
+('c0000000-0000-0000-0000-000000000002', 'Greeting Cards', 'greeting-cards', '/images/thank-you-greeting-card.png')
 ON CONFLICT (slug) DO NOTHING;
 
 -- Seed Products
