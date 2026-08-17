@@ -29,16 +29,15 @@ export const Footer: React.FC = () => {
           {/* Brand Intro */}
           <div className="md:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-cream-50 p-1 flex items-center justify-center shadow-md">
-                <Image
-                  src={settings.logo_url || '/logo.png'}
-                  alt="Petal & Ink Logo"
-                  width={36}
-                  height={36}
-                  unoptimized
-                  className="w-full h-full object-contain"
-                />
-              </div>
+              <Image
+                src={settings.logo_url || '/logo.png'}
+                alt="Petal & Ink Logo"
+                width={40}
+                height={40}
+                unoptimized
+                style={{ background: 'transparent' }}
+                className="w-10 h-10 object-contain shrink-0 bg-transparent border-0 outline-none"
+              />
               <span className="font-serif text-2xl font-bold text-cream-50 tracking-tight">
                 {settings.brand_name}
               </span>

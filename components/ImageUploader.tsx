@@ -40,7 +40,8 @@ export default function ImageUploader({
     setUploading(true);
 
     try {
-      const uploadPromises = Array.from(files).map((file) => uploadImage(file, bucket));
+      const fileArray = Array.from(files);
+      const uploadPromises = fileArray.map((file) => uploadImage(file, bucket));
       const rawUrls = await Promise.all(uploadPromises);
       const uploadedUrls = rawUrls.filter((url): url is string => typeof url === 'string' && url.trim().length > 0);
 
@@ -127,7 +128,7 @@ export default function ImageUploader({
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <label className="block text-xs font-medium text-slate-300">
+        <label className="block text-xs font-semibold text-obsidian-900">
           {label} {multiple ? '(Upload 1 or more files)' : ''}
         </label>
         <div className="flex items-center gap-3">
@@ -135,7 +136,7 @@ export default function ImageUploader({
             <button
               type="button"
               onClick={handleClearAll}
-              className="text-[11px] text-rose-400 hover:text-rose-300 transition-colors"
+              className="text-[11px] text-rose-700 hover:text-rose-800 font-medium transition-colors"
             >
               Clear All Images
             </button>
@@ -143,7 +144,7 @@ export default function ImageUploader({
           <button
             type="button"
             onClick={() => setShowUrlInput(!showUrlInput)}
-            className="text-[11px] text-slate-400 hover:text-white flex items-center gap-1 transition-colors"
+            className="text-[11px] text-obsidian-800/70 hover:text-obsidian-950 flex items-center gap-1 transition-colors font-medium"
           >
             <LinkIcon className="w-3 h-3" />
             <span>{showUrlInput ? 'Hide URL input' : 'Paste image URL'}</span>
@@ -159,11 +160,11 @@ export default function ImageUploader({
             value={customUrl}
             onChange={(e) => setCustomUrl(e.target.value)}
             placeholder="https://example.com/image.jpg"
-            className="flex-grow px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-white text-xs font-mono focus:outline-none focus:border-rose-500"
+            className="flex-grow px-3 py-2 rounded-xl bg-cream-50/80 border border-rose-200 text-obsidian-950 text-xs font-mono focus:outline-none focus:border-rose-500 focus:bg-white transition-all"
           />
           <button
             type="submit"
-            className="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-medium shrink-0"
+            className="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold shrink-0 shadow-sm"
           >
             Add Image
           </button>
@@ -179,8 +180,8 @@ export default function ImageUploader({
         onClick={() => fileInputRef.current?.click()}
         className={`relative border-2 border-dashed rounded-2xl p-6 text-center cursor-pointer transition-all ${
           dragActive
-            ? 'border-rose-500 bg-rose-500/10'
-            : 'border-slate-800 bg-slate-900/60 hover:bg-slate-900 hover:border-slate-700'
+            ? 'border-rose-500 bg-rose-50'
+            : 'border-rose-300/80 bg-cream-50/70 hover:bg-cream-100/80 hover:border-rose-400'
         }`}
       >
         <input
@@ -193,20 +194,20 @@ export default function ImageUploader({
         />
 
         {uploading ? (
-          <div className="flex flex-col items-center justify-center py-3 space-y-2 text-rose-400">
+          <div className="flex flex-col items-center justify-center py-3 space-y-2 text-rose-600">
             <Loader2 className="w-8 h-8 animate-spin" />
             <p className="text-xs font-medium">Uploading image file(s)...</p>
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center space-y-2 py-2">
-            <div className="p-3 rounded-full bg-slate-950 border border-slate-800 text-rose-400">
+            <div className="p-3 rounded-full bg-white border border-rose-200 text-rose-600 shadow-sm">
               <Upload className="w-5 h-5" />
             </div>
             <div>
-              <p className="text-xs font-semibold text-slate-200">
+              <p className="text-xs font-semibold text-obsidian-950">
                 Click to select or drop sample image files here
               </p>
-              <p className="text-[11px] text-slate-400 mt-0.5">
+              <p className="text-[11px] text-obsidian-800/60 mt-0.5">
                 Newly uploaded image automatically becomes the primary cover image
               </p>
             </div>
@@ -218,10 +219,10 @@ export default function ImageUploader({
       {images.length > 0 && (
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <p className="text-[11px] text-slate-400 font-medium">
+            <p className="text-[11px] text-obsidian-800/70 font-medium">
               Image Gallery ({images.length} file{images.length > 1 ? 's' : ''})
             </p>
-            <p className="text-[10px] text-slate-500">
+            <p className="text-[10px] text-obsidian-800/50">
               First image is used as primary product thumbnail
             </p>
           </div>
@@ -230,17 +231,17 @@ export default function ImageUploader({
             {images.map((url, idx) => (
               <div
                 key={idx}
-                className="group relative rounded-xl overflow-hidden bg-slate-950 border border-slate-800 aspect-square flex items-center justify-center"
+                className="group relative rounded-xl overflow-hidden bg-white border border-rose-200/80 aspect-square flex items-center justify-center shadow-sm p-1"
               >
                 <img
                   src={url}
                   alt={`Sample ${idx + 1}`}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain bg-transparent"
                 />
 
                 {/* Cover / Main Tag */}
                 {idx === 0 ? (
-                  <span className="absolute top-1.5 left-1.5 px-2 py-0.5 rounded-md bg-rose-600/90 backdrop-blur-sm text-[9px] font-bold text-white shadow flex items-center gap-1">
+                  <span className="absolute top-1.5 left-1.5 px-2 py-0.5 rounded-md bg-rose-600 text-[9px] font-bold text-white shadow flex items-center gap-1">
                     <Star className="w-2.5 h-2.5 fill-white" /> Primary Cover
                   </span>
                 ) : (
@@ -250,7 +251,7 @@ export default function ImageUploader({
                       e.stopPropagation();
                       handleSetCover(idx);
                     }}
-                    className="absolute top-1.5 left-1.5 px-2 py-0.5 rounded-md bg-slate-900/90 hover:bg-rose-600 text-[9px] font-semibold text-slate-200 hover:text-white transition-colors opacity-80 group-hover:opacity-100"
+                    className="absolute top-1.5 left-1.5 px-2 py-0.5 rounded-md bg-white/90 hover:bg-rose-600 text-[9px] font-semibold text-obsidian-900 hover:text-white transition-colors opacity-90 group-hover:opacity-100 shadow-sm border border-rose-200/60"
                     title="Set as primary cover image"
                   >
                     Make Cover
@@ -258,7 +259,7 @@ export default function ImageUploader({
                 )}
 
                 {/* Control overlay */}
-                <div className="absolute inset-0 bg-slate-950/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1.5 p-2">
+                <div className="absolute inset-0 bg-obsidian-950/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1.5 p-2 backdrop-blur-[2px]">
                   {multiple && idx > 0 && (
                     <button
                       type="button"
@@ -266,7 +267,7 @@ export default function ImageUploader({
                         e.stopPropagation();
                         handleMove(idx, 'left');
                       }}
-                      className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200"
+                      className="p-1.5 rounded-lg bg-white/90 hover:bg-white text-obsidian-900"
                       title="Move Left"
                     >
                       <ArrowLeft className="w-3.5 h-3.5" />
@@ -280,7 +281,7 @@ export default function ImageUploader({
                         e.stopPropagation();
                         handleMove(idx, 'right');
                       }}
-                      className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200"
+                      className="p-1.5 rounded-lg bg-white/90 hover:bg-white text-obsidian-900"
                       title="Move Right"
                     >
                       <ArrowRight className="w-3.5 h-3.5" />
@@ -290,13 +291,14 @@ export default function ImageUploader({
                   <button
                     type="button"
                     onClick={(e) => {
+                      e.preventDefault();
                       e.stopPropagation();
                       handleRemove(idx);
                     }}
-                    className="p-1.5 rounded-lg bg-rose-600/90 hover:bg-rose-500 text-white"
+                    className="p-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white shadow-md transition-transform hover:scale-105"
                     title="Remove Image"
                   >
-                    <Trash2 className="w-3.5 h-3.5" />
+                    <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
               </div>

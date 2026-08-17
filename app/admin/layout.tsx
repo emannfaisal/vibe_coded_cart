@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { createClient } from '@/lib/supabase/client';
+import { getSiteSettings } from '@/lib/supabase/api';
+import { SiteSettings } from '@/types/database';
 import {
   ShoppingBag,
   Grid,
@@ -22,8 +24,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [siteSettings, setSiteSettings] = useState<SiteSettings | null>(null);
 
   useEffect(() => {
+    getSiteSettings().then((s) => {
+      if (s) setSiteSettings(s);
+    });
+
     if (pathname === '/admin/login') {
       setIsAuthenticated(true);
       return;
@@ -56,13 +63,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     return <>{children}</>;
   }
 
-  // Show a dark loading spinner while checking security credentials
+  // Show a warm loading spinner while checking security credentials
   if (isAuthenticated === null || !isAuthenticated) {
     return (
-      <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center">
+      <div className="min-h-screen bg-[#FDFBF7] text-obsidian-950 flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-8 h-8 border-2 border-rose-500 border-t-transparent rounded-full animate-spin" />
-          <span className="text-xs text-slate-400 font-mono uppercase tracking-wider">Verifying Admin Access...</span>
+          <div className="w-8 h-8 border-2 border-rose-600 border-t-transparent rounded-full animate-spin" />
+          <span className="text-xs text-obsidian-800/70 font-mono uppercase tracking-wider">Verifying Admin Access...</span>
         </div>
       </div>
     );
@@ -84,27 +91,29 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { name: 'Site Settings', href: '/admin/settings', icon: Settings },
   ];
 
+  const logoSrc = siteSettings?.logo_url || '/logo.png';
+  const brandName = siteSettings?.brand_name || 'Petal & Ink';
+
   return (
-    <div className="min-h-screen bg-slate-900 text-slate-100 flex flex-col md:flex-row">
+    <div className="min-h-screen bg-[#FDFBF7] text-obsidian-950 flex flex-col md:flex-row">
       
       {/* Mobile Top Header */}
-      <div className="md:hidden bg-slate-950 border-b border-slate-800 p-4 flex items-center justify-between">
+      <div className="md:hidden bg-cream-100/90 backdrop-blur-md border-b border-rose-200/60 p-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-xl bg-slate-900 border border-slate-800 p-1 flex items-center justify-center">
-            <Image
-              src="/logo.png"
-              alt="Petal & Ink Logo"
-              width={32}
-              height={32}
-              unoptimized
-              className="w-full h-full object-contain"
-            />
-          </div>
-          <span className="font-serif font-bold text-lg text-white">Petal & Ink Admin</span>
+          <Image
+            src={logoSrc}
+            alt="Logo"
+            width={32}
+            height={32}
+            unoptimized
+            style={{ background: 'transparent' }}
+            className="w-8 h-8 object-contain shrink-0 bg-transparent border-0 outline-none"
+          />
+          <span className="font-serif font-bold text-lg text-obsidian-950">{brandName} Admin</span>
         </div>
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="p-2 rounded-lg text-slate-400 hover:text-white"
+          className="p-2 rounded-lg text-obsidian-800/70 hover:text-obsidian-950"
         >
           {sidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
@@ -114,25 +123,24 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <aside
         className={`${
           sidebarOpen ? 'block' : 'hidden'
-        } md:block w-full md:w-64 bg-slate-950 border-r border-slate-800 p-6 flex flex-col justify-between shrink-0`}
+        } md:block w-full md:w-64 bg-cream-100/80 backdrop-blur-md border-r border-rose-200/60 p-6 flex flex-col justify-between shrink-0`}
       >
         <div className="space-y-8">
           
           {/* Studio Brand */}
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-slate-900 border border-slate-800 p-1.5 flex items-center justify-center shadow-lg">
-              <Image
-                src="/logo.png"
-                alt="Petal & Ink Logo"
-                width={40}
-                height={40}
-                unoptimized
-                className="w-full h-full object-contain"
-              />
-            </div>
+            <Image
+              src={logoSrc}
+              alt="Logo"
+              width={40}
+              height={40}
+              unoptimized
+              style={{ background: 'transparent' }}
+              className="w-10 h-10 object-contain shrink-0 bg-transparent border-0 outline-none"
+            />
             <div>
-              <span className="font-serif font-bold text-lg text-white block">Petal & Ink</span>
-              <span className="text-[10px] text-rose-400 uppercase tracking-widest font-semibold block">
+              <span className="font-serif font-bold text-lg text-obsidian-950 block">{brandName}</span>
+              <span className="text-[10px] text-rose-700 uppercase tracking-widest font-semibold block">
                 Admin Dashboard
               </span>
             </div>
@@ -150,8 +158,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   onClick={() => setSidebarOpen(false)}
                   className={`flex items-center gap-3 px-4 py-3 rounded-2xl text-xs font-semibold transition-all ${
                     isActive
-                      ? 'bg-rose-600 text-white shadow-lg'
-                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+                      ? 'bg-rose-600 text-white shadow-md shadow-rose-600/20'
+                      : 'text-obsidian-800/70 hover:text-obsidian-950 hover:bg-rose-50/80'
                   }`}
                 >
                   <Icon className="w-4 h-4" />
@@ -164,19 +172,19 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </div>
 
         {/* Footer Actions */}
-        <div className="space-y-3 pt-6 border-t border-slate-800">
+        <div className="space-y-3 pt-6 border-t border-rose-200/60">
           <Link
             href="/"
             target="_blank"
-            className="flex items-center justify-between px-4 py-2.5 rounded-xl bg-slate-900 text-xs font-medium text-slate-300 hover:text-white transition-colors border border-slate-800"
+            className="flex items-center justify-between px-4 py-2.5 rounded-xl bg-white text-xs font-medium text-obsidian-800 hover:text-rose-700 transition-colors border border-rose-200/80 shadow-sm"
           >
             <span>Live Storefront Preview</span>
-            <ExternalLink className="w-3.5 h-3.5 text-rose-400" />
+            <ExternalLink className="w-3.5 h-3.5 text-rose-600" />
           </Link>
 
           <button
             onClick={handleLogout}
-            className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-medium text-rose-400 hover:bg-rose-950/50 transition-colors"
+            className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-medium text-rose-700 hover:bg-rose-100/60 transition-colors"
           >
             <LogOut className="w-4 h-4" />
             <span>Sign Out</span>

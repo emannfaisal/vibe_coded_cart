@@ -79,15 +79,15 @@ export default function AdminOrdersPage() {
   const statusBadgeStyle = (status: OrderStatus) => {
     switch (status) {
       case 'pending':
-        return 'bg-amber-950/80 text-amber-300 border-amber-500/40';
+        return 'bg-amber-50 text-amber-900 border-amber-200';
       case 'confirmed':
-        return 'bg-blue-950/80 text-blue-300 border-blue-500/40';
+        return 'bg-rose-100/80 text-rose-900 border-rose-200';
       case 'in_progress':
-        return 'bg-purple-950/80 text-purple-300 border-purple-500/40';
+        return 'bg-rose-200/80 text-rose-900 border-rose-300';
       case 'delivered':
-        return 'bg-emerald-950/80 text-emerald-300 border-emerald-500/40';
+        return 'bg-sage-100 text-sage-800 border-sage-200';
       default:
-        return 'bg-slate-800 text-slate-300 border-slate-700';
+        return 'bg-cream-100 text-obsidian-800 border-cream-300';
     }
   };
 
@@ -95,16 +95,16 @@ export default function AdminOrdersPage() {
     <div className="space-y-8 max-w-7xl mx-auto">
       
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-800 pb-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-rose-200/60 pb-6">
         <div>
-          <h1 className="font-serif text-3xl font-bold text-white">Customer Orders</h1>
-          <p className="text-xs text-slate-400 mt-1">
+          <h1 className="font-serif text-3xl font-bold text-obsidian-950">Customer Orders</h1>
+          <p className="text-xs text-obsidian-800/70 mt-1">
             Review customer contact details, custom text inputs, and update fulfillment progress.
           </p>
         </div>
         <button
           onClick={loadOrders}
-          className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 transition-colors"
+          className="px-4 py-2 rounded-xl bg-white hover:bg-cream-100 text-xs font-semibold text-obsidian-900 border border-rose-200/80 transition-colors shadow-sm"
         >
           Refresh Orders
         </button>
@@ -112,25 +112,25 @@ export default function AdminOrdersPage() {
 
       {/* Stats Quick Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-1">
-          <span className="text-[10px] uppercase font-bold text-slate-400">Total Orders</span>
-          <div className="text-2xl font-serif font-bold text-white">{orders.length}</div>
+        <div className="p-5 rounded-2xl bg-white border border-rose-200/80 shadow-soft space-y-1">
+          <span className="text-[10px] uppercase font-bold text-obsidian-800/60">Total Orders</span>
+          <div className="text-2xl font-serif font-bold text-obsidian-950">{orders.length}</div>
         </div>
-        <div className="p-5 rounded-2xl bg-slate-950 border border-amber-500/30 space-y-1">
-          <span className="text-[10px] uppercase font-bold text-amber-400">Pending Payment</span>
-          <div className="text-2xl font-serif font-bold text-amber-300">
+        <div className="p-5 rounded-2xl bg-amber-50/80 border border-amber-200/80 shadow-soft space-y-1">
+          <span className="text-[10px] uppercase font-bold text-amber-800">Pending Payment</span>
+          <div className="text-2xl font-serif font-bold text-amber-900">
             {orders.filter((o) => o.status === 'pending').length}
           </div>
         </div>
-        <div className="p-5 rounded-2xl bg-slate-950 border border-purple-500/30 space-y-1">
-          <span className="text-[10px] uppercase font-bold text-purple-400">In Progress</span>
-          <div className="text-2xl font-serif font-bold text-purple-300">
+        <div className="p-5 rounded-2xl bg-rose-50/80 border border-rose-200 shadow-soft space-y-1">
+          <span className="text-[10px] uppercase font-bold text-rose-700">In Progress</span>
+          <div className="text-2xl font-serif font-bold text-rose-900">
             {orders.filter((o) => o.status === 'in_progress').length}
           </div>
         </div>
-        <div className="p-5 rounded-2xl bg-slate-950 border border-emerald-500/30 space-y-1">
-          <span className="text-[10px] uppercase font-bold text-emerald-400">Delivered</span>
-          <div className="text-2xl font-serif font-bold text-emerald-300">
+        <div className="p-5 rounded-2xl bg-sage-50 border border-sage-200 shadow-soft space-y-1">
+          <span className="text-[10px] uppercase font-bold text-sage-700">Delivered</span>
+          <div className="text-2xl font-serif font-bold text-sage-800">
             {orders.filter((o) => o.status === 'delivered').length}
           </div>
         </div>
@@ -140,13 +140,13 @@ export default function AdminOrdersPage() {
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
         {/* Search */}
         <div className="relative w-full sm:w-80">
-          <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+          <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-obsidian-800/40" />
           <input
             type="text"
             placeholder="Search by ID, name, or phone..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-rose-500"
+            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white border border-rose-200/80 text-xs text-obsidian-950 placeholder:text-obsidian-800/40 focus:outline-none focus:border-rose-500 shadow-sm"
           />
         </div>
 
@@ -156,10 +156,10 @@ export default function AdminOrdersPage() {
             <button
               key={st}
               onClick={() => setStatusFilter(st)}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-medium capitalize transition-colors shrink-0 ${
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-medium capitalize transition-all shrink-0 ${
                 statusFilter === st
-                  ? 'bg-rose-600 text-white font-semibold'
-                  : 'bg-slate-950 text-slate-400 hover:text-slate-200 border border-slate-800'
+                  ? 'bg-rose-600 text-white font-semibold shadow-sm'
+                  : 'bg-white text-obsidian-800 hover:text-obsidian-950 border border-rose-200/60 hover:bg-rose-50/60'
               }`}
             >
               {st === 'in_progress' ? 'In Progress' : st}
@@ -172,39 +172,39 @@ export default function AdminOrdersPage() {
       {loading ? (
         <div className="space-y-4">
           {[1, 2, 3].map((n) => (
-            <div key={n} className="h-40 rounded-2xl bg-slate-950 animate-pulse" />
+            <div key={n} className="h-40 rounded-3xl bg-white border border-rose-100 animate-pulse" />
           ))}
         </div>
       ) : filteredOrders.length === 0 ? (
-        <div className="p-12 text-center bg-slate-950 rounded-2xl border border-slate-800 space-y-2">
-          <ShoppingBag className="w-8 h-8 text-slate-600 mx-auto" />
-          <h3 className="text-base font-semibold text-slate-300">No orders found</h3>
-          <p className="text-xs text-slate-500">There are no customer orders matching your query.</p>
+        <div className="p-12 text-center bg-white rounded-3xl border border-rose-200/80 space-y-2 shadow-soft">
+          <ShoppingBag className="w-8 h-8 text-rose-300 mx-auto" />
+          <h3 className="text-base font-semibold text-obsidian-950">No orders found</h3>
+          <p className="text-xs text-obsidian-800/60">There are no customer orders matching your query.</p>
         </div>
       ) : (
         <div className="space-y-6">
           {filteredOrders.map((order) => (
             <div
               key={order.id}
-              className="p-6 rounded-3xl bg-slate-950 border border-slate-800 space-y-6 shadow-xl"
+              className="p-6 rounded-3xl bg-white border border-rose-200/80 space-y-6 shadow-soft"
             >
               
               {/* Order Top Summary Bar */}
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-800/80 pb-4">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-rose-100 pb-4">
                 
                 <div className="space-y-1">
                   <div className="flex items-center gap-3">
-                    <span className="font-mono text-xs font-bold text-rose-400">#{order.id}</span>
-                    <span className="text-xs text-slate-400">• {formatDate(order.created_at)}</span>
+                    <span className="font-mono text-xs font-bold text-rose-700">#{order.id}</span>
+                    <span className="text-xs text-obsidian-800/60">• {formatDate(order.created_at)}</span>
                   </div>
-                  <h3 className="font-serif text-xl font-bold text-white flex items-center gap-2">
+                  <h3 className="font-serif text-xl font-bold text-obsidian-950 flex items-center gap-2">
                     {order.customer_name}
                   </h3>
                 </div>
 
                 {/* Status Dropdown */}
                 <div className="flex items-center gap-3">
-                  <span className="text-xs text-slate-400 font-medium">Status:</span>
+                  <span className="text-xs text-obsidian-800/70 font-medium">Status:</span>
                   <div className="relative">
                     <select
                       value={order.status}
@@ -225,14 +225,14 @@ export default function AdminOrdersPage() {
               </div>
 
               {/* Customer Contact & Notes Info Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs bg-slate-900/60 p-4 rounded-2xl border border-slate-800">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs bg-cream-50/70 p-4 rounded-2xl border border-cream-200/80">
                 <div>
-                  <span className="text-[10px] text-slate-400 uppercase font-bold block mb-1">Customer Phone (WhatsApp)</span>
+                  <span className="text-[10px] text-obsidian-800/60 uppercase font-bold block mb-1">Customer Phone (WhatsApp)</span>
                   <a
                     href={`https://wa.me/${order.phone.replace(/[^0-9]/g, '')}?text=Hello%20${encodeURIComponent(order.customer_name)}%2C%20regarding%20your%20Petal%20%26%20Ink%20order%20%23${order.id}...`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-emerald-400 hover:underline font-medium"
+                    className="inline-flex items-center gap-1.5 text-sage-700 hover:text-sage-800 hover:underline font-semibold"
                   >
                     <Phone className="w-3.5 h-3.5" />
                     <span>{order.phone}</span>
@@ -240,52 +240,52 @@ export default function AdminOrdersPage() {
                 </div>
 
                 <div>
-                  <span className="text-[10px] text-slate-400 uppercase font-bold block mb-1">Email Address</span>
+                  <span className="text-[10px] text-obsidian-800/60 uppercase font-bold block mb-1">Email Address</span>
                   {order.email ? (
-                    <a href={`mailto:${order.email}`} className="text-rose-300 hover:underline flex items-center gap-1.5">
+                    <a href={`mailto:${order.email}`} className="text-rose-700 hover:text-rose-800 hover:underline flex items-center gap-1.5 font-medium">
                       <Mail className="w-3.5 h-3.5" />
                       <span>{order.email}</span>
                     </a>
                   ) : (
-                    <span className="text-slate-500 italic">No email provided</span>
+                    <span className="text-obsidian-800/40 italic">No email provided</span>
                   )}
                 </div>
 
                 <div>
-                  <span className="text-[10px] text-slate-400 uppercase font-bold block mb-1">Special Delivery Notes</span>
-                  <p className="text-slate-300 italic">{order.notes || 'None'}</p>
+                  <span className="text-[10px] text-obsidian-800/60 uppercase font-bold block mb-1">Special Delivery Notes</span>
+                  <p className="text-obsidian-900 italic">{order.notes || 'None'}</p>
                 </div>
               </div>
 
               {/* Order Items Breakdown */}
               <div className="space-y-3">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-rose-400">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-rose-700">
                   Ordered Customized Items ({order.order_items?.length || 0})
                 </h4>
 
                 <div className="grid grid-cols-1 gap-3">
                   {order.order_items?.map((item, idx) => (
-                    <div key={idx} className="p-4 rounded-2xl bg-slate-900 border border-slate-800/80 space-y-2">
+                    <div key={idx} className="p-4 rounded-2xl bg-cream-50/50 border border-cream-200/80 space-y-2">
                       <div className="flex justify-between items-start">
-                        <span className="font-serif text-sm font-bold text-white">
-                          {item.product_name_snapshot} <span className="text-slate-400 font-sans text-xs">(x{item.quantity})</span>
+                        <span className="font-serif text-sm font-bold text-obsidian-950">
+                          {item.product_name_snapshot} <span className="text-obsidian-800/60 font-sans text-xs">(x{item.quantity})</span>
                         </span>
-                        <span className="font-serif text-xs font-bold text-rose-300">
+                        <span className="font-serif text-xs font-bold text-rose-700">
                           {formatPKR(item.price_at_purchase * item.quantity)}
                         </span>
                       </div>
 
                       {/* Submitted Custom Fields List */}
                       {item.custom_field_values && Object.keys(item.custom_field_values).length > 0 && (
-                        <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs space-y-1">
-                          <span className="text-[10px] uppercase font-bold text-rose-400 flex items-center gap-1">
+                        <div className="p-3 rounded-xl bg-white border border-rose-200/60 text-xs space-y-1 shadow-sm">
+                          <span className="text-[10px] uppercase font-bold text-rose-700 flex items-center gap-1">
                             <Sparkles className="w-3 h-3" /> Submitted Custom Text:
                           </span>
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1 text-slate-300">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1 text-obsidian-800">
                             {Object.entries(item.custom_field_values).map(([k, v]) => (
                               <div key={k}>
-                                <strong className="text-white font-medium">{k}:</strong>{' '}
-                                <span className="text-rose-200">{v || '(blank)'}</span>
+                                <strong className="text-obsidian-950 font-medium">{k}:</strong>{' '}
+                                <span className="text-rose-800 font-medium">{v || '(blank)'}</span>
                               </div>
                             ))}
                           </div>
@@ -297,9 +297,9 @@ export default function AdminOrdersPage() {
               </div>
 
               {/* Bottom Order Total */}
-              <div className="flex justify-between items-center pt-3 border-t border-slate-800 text-sm font-bold">
-                <span className="text-slate-400">Order Total Amount:</span>
-                <span className="font-serif text-xl text-rose-400">{formatPKR(order.total_price)}</span>
+              <div className="flex justify-between items-center pt-3 border-t border-rose-100 text-sm font-bold">
+                <span className="text-obsidian-800/70">Order Total Amount:</span>
+                <span className="font-serif text-xl text-rose-700">{formatPKR(order.total_price)}</span>
               </div>
 
             </div>

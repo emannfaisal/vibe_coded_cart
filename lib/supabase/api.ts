@@ -52,9 +52,18 @@ export async function getSiteSettings(): Promise<SiteSettings> {
   const supabase = createClient();
   if (supabase) {
     const { data, error } = await supabase.from('site_settings').select('*').limit(1).single();
-    if (!error && data) return data as SiteSettings;
+    if (!error && data) {
+      return {
+        ...data,
+        logo_url: data.logo_url !== undefined ? data.logo_url : '/logo.png',
+      } as SiteSettings;
+    }
   }
-  return getMockData(STORAGE_KEYS.SETTINGS, INITIAL_MOCK_SETTINGS);
+  const mock = getMockData(STORAGE_KEYS.SETTINGS, INITIAL_MOCK_SETTINGS);
+  return {
+    ...mock,
+    logo_url: mock.logo_url !== undefined ? mock.logo_url : '/logo.png',
+  };
 }
 
 export async function updateSiteSettings(settings: Partial<SiteSettings>): Promise<SiteSettings> {

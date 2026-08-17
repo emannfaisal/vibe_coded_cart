@@ -61,16 +61,15 @@ export const Navbar: React.FC = () => {
           
           {/* Logo & Brand Name */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-11 h-11 rounded-2xl bg-rose-50 border border-rose-200/80 p-1.5 flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform duration-300">
-              <Image
-                src={settings.logo_url || '/logo.png'}
-                alt="Petal & Ink Logo"
-                width={40}
-                height={40}
-                unoptimized
-                className="w-full h-full object-contain"
-              />
-            </div>
+            <Image
+              src={settings.logo_url || '/logo.png'}
+              alt="Petal & Ink Logo"
+              width={42}
+              height={42}
+              unoptimized
+              style={{ background: 'transparent' }}
+              className="w-10 h-10 sm:w-11 sm:h-11 object-contain shrink-0 group-hover:scale-105 transition-transform duration-300 bg-transparent border-0 outline-none"
+            />
             <div>
               <span className="font-serif text-2xl font-semibold tracking-tight text-obsidian-900 block group-hover:text-rose-700 transition-colors">
                 {settings.brand_name}

@@ -4,8 +4,12 @@ import { createClient } from './client';
  * Compresses an image file using HTML Canvas to reduce payload size (e.g. from 4MB to ~90KB)
  * so it saves blazingly fast in Supabase DB and browser storage without hitting quota limits.
  */
-export async function compressImageFile(file: File, maxWidth = 1200, maxHeight = 1600, quality = 0.85): Promise<string> {
+export async function compressImageFile(file: File, maxWidth = 1200, maxHeight = 1600, quality = 0.9): Promise<string> {
   return new Promise((resolve, reject) => {
+    // Preserve PNG alpha/transparency format
+    const isPng = file.type === 'image/png' || file.name.toLowerCase().endsWith('.png');
+    const outputType = isPng ? 'image/png' : 'image/jpeg';
+
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = (event) => {
@@ -35,8 +39,12 @@ export async function compressImageFile(file: File, maxWidth = 1200, maxHeight =
           return;
         }
 
+        // Ensure canvas background is 100% clear/transparent before drawing
+        ctx.clearRect(0, 0, width, height);
+
         ctx.drawImage(img, 0, 0, width, height);
-        const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+        // Export PNG with full alpha channel preserved
+        const compressedDataUrl = canvas.toDataURL(outputType, isPng ? undefined : quality);
         resolve(compressedDataUrl);
       };
       img.onerror = (err) => reject(err);
