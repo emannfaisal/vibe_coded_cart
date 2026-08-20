@@ -57,8 +57,14 @@ export default function AdminLoginPage() {
             error.message?.toLowerCase().includes('rate limit') ||
             error.message?.toLowerCase().includes('too many requests');
 
+          const isCaptchaTokenMissing =
+            error.message?.toLowerCase().includes('no captcha_token found') ||
+            error.message?.toLowerCase().includes('captcha protection');
+
           if (isRateLimited) {
             setErrorMsg('Too many login attempts. Please wait 5 minutes before trying again.');
+          } else if (isCaptchaTokenMissing) {
+            setErrorMsg('CAPTCHA bot protection is active on Supabase. Please add NEXT_PUBLIC_TURNSTILE_SITE_KEY to Vercel Environment Variables.');
           } else {
             setErrorMsg(error.message || 'Invalid admin credentials. Please enter email & password.');
           }
