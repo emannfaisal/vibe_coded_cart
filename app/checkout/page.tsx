@@ -21,6 +21,8 @@ import {
   ShoppingBag,
 } from 'lucide-react';
 
+import { validateCheckoutInput, sanitizeInput } from '@/lib/validation';
+
 export default function CheckoutPage() {
   const { items, subtotal, clearCart } = useCart();
   const [settings, setSettings] = useState<SiteSettings>({
@@ -60,17 +62,20 @@ export default function CheckoutPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Basic Validation
-    const newErrors: Record<string, string> = {};
-    if (!formData.customer_name.trim()) {
-      newErrors.customer_name = 'Full name is required';
-    }
-    if (!formData.phone.trim()) {
-      newErrors.phone = 'WhatsApp phone number is required';
-    }
+    const validation = validateCheckoutInput({
+      customerName: formData.customer_name,
+      phone: formData.phone,
+      email: formData.email,
+      notes: formData.notes,
+    });
 
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
+    if (!validation.isValid) {
+      setErrors({
+        customer_name: validation.errors.customerName || '',
+        phone: validation.errors.phone || '',
+        email: validation.errors.email || '',
+        notes: validation.errors.notes || '',
+      });
       return;
     }
 
@@ -78,10 +83,10 @@ export default function CheckoutPage() {
     try {
       const order = await createOrder(
         {
-          customer_name: formData.customer_name.trim(),
-          phone: formData.phone.trim(),
-          email: formData.email.trim() || null,
-          notes: formData.notes.trim() || null,
+          customer_name: sanitizeInput(formData.customer_name),
+          phone: sanitizeInput(formData.phone),
+          email: formData.email.trim() ? sanitizeInput(formData.email) : null,
+          notes: formData.notes.trim() ? sanitizeInput(formData.notes) : null,
         },
         items.map((i) => ({
           product: i.product,

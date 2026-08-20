@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { getSiteSettings, updateSiteSettings } from '@/lib/supabase/api';
 import { SiteSettings } from '@/types/database';
+import { validateSiteSettingsInput, sanitizeInput } from '@/lib/validation';
 import ImageUploader from '@/components/ImageUploader';
 import { Settings, Save, Mail, Tag, Sparkles, CheckCircle2 } from 'lucide-react';
 
@@ -27,9 +28,29 @@ export default function AdminSettingsPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const validation = validateSiteSettingsInput({
+      contact_email: formState.contact_email,
+      brand_name: formState.brand_name,
+      tagline: formState.tagline,
+    });
+
+    if (!validation.isValid) {
+      alert(Object.values(validation.errors).join('\n'));
+      return;
+    }
+
     setSaving(true);
     try {
-      await updateSiteSettings(formState);
+      const cleanData: SiteSettings = {
+        ...formState,
+        contact_email: formState.contact_email.trim(),
+        brand_name: sanitizeInput(formState.brand_name),
+        tagline: formState.tagline ? sanitizeInput(formState.tagline) : '',
+        logo_url: formState.logo_url ? formState.logo_url.trim() : '',
+      };
+
+      await updateSiteSettings(cleanData);
       setSuccessMsg(true);
       setTimeout(() => setSuccessMsg(false), 4000);
     } catch (err) {

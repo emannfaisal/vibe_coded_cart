@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { getProducts, getCategories, saveProduct, deleteProduct, toggleProductActive } from '@/lib/supabase/api';
 import { Product, Category, CustomField } from '@/types/database';
 import { formatPKR, slugify } from '@/lib/utils';
+import { validateProductInput, sanitizeInput } from '@/lib/validation';
 import ImageUploader from '@/components/ImageUploader';
 import {
   Package,
@@ -140,18 +141,35 @@ export default function AdminProductsPage() {
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const validation = validateProductInput({
+      name: formState.name,
+      price: Number(formState.price),
+      description: formState.description,
+      imageUrls: formState.image_urls,
+    });
+
+    if (!validation.isValid) {
+      alert(Object.values(validation.errors).join('\n'));
+      return;
+    }
+
     setSaving(true);
     try {
-      const cleanName = formState.name.trim() || 'Untitled Design';
-      const cleanSlug = formState.slug.trim() || slugify(cleanName) || `design-${Date.now()}`;
+      const cleanName = sanitizeInput(formState.name);
+      const cleanSlug = slugify(formState.slug || cleanName) || `design-${Date.now()}`;
       const cleanCategoryId = formState.category_id || categories[0]?.id || '';
       const cleanImageUrls = formState.image_urls.filter((url) => typeof url === 'string' && url.trim().length > 0);
-      const cleanCustomFields = formState.custom_fields.filter((f) => f.name.trim().length > 0);
+      const cleanCustomFields = formState.custom_fields
+        .filter((f) => f.name.trim().length > 0)
+        .map((f) => ({ ...f, name: sanitizeInput(f.name) }));
 
       await saveProduct({
         ...formState,
         name: cleanName,
         slug: cleanSlug,
+        price: Math.max(0, Math.floor(Number(formState.price))),
+        description: sanitizeInput(formState.description),
         category_id: cleanCategoryId,
         image_urls: cleanImageUrls,
         custom_fields: cleanCustomFields,

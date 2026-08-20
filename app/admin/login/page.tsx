@@ -4,12 +4,16 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
-import { Lock, Mail, KeyRound, ArrowLeft, Sparkles, ShieldCheck } from 'lucide-react';
+import TurnstileWidget from '@/components/TurnstileWidget';
+import { Lock, Mail, KeyRound, ArrowLeft, Sparkles } from 'lucide-react';
+
+import { validateAdminLoginInput } from '@/lib/validation';
 
 export default function AdminLoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
@@ -18,38 +22,63 @@ export default function AdminLoginPage() {
     setLoading(true);
     setErrorMsg(null);
 
+    const validation = validateAdminLoginInput(email, password);
+    if (!validation.isValid) {
+      setErrorMsg(Object.values(validation.errors)[0]);
+      setLoading(false);
+      return;
+    }
+
+    const siteKeyConfigured =
+      process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY &&
+      !process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY.includes('your-turnstile-site-key');
+
+    // Require bot protection verification if Turnstile site key is configured
+    if (siteKeyConfigured && !captchaToken) {
+      setErrorMsg('Please complete the bot protection verification check.');
+      setLoading(false);
+      return;
+    }
+
     try {
       const supabase = createClient();
       if (supabase) {
         const { error } = await supabase.auth.signInWithPassword({
           email: email.trim(),
           password,
+          options: {
+            captchaToken: captchaToken || undefined,
+          },
         });
 
-        if (!error) {
-          if (typeof window !== 'undefined') {
-            localStorage.setItem('petal_admin_auth', 'true');
+        if (error) {
+          const isRateLimited =
+            error.status === 429 ||
+            error.message?.toLowerCase().includes('rate limit') ||
+            error.message?.toLowerCase().includes('too many requests');
+
+          if (isRateLimited) {
+            setErrorMsg('Too many login attempts. Please wait 5 minutes before trying again.');
+          } else {
+            setErrorMsg(error.message || 'Invalid admin credentials. Please enter email & password.');
           }
-          router.push('/admin/orders');
+          setLoading(false);
           return;
         }
+
+        router.push('/admin/orders');
+        return;
       }
 
-      // Demo login fallback credentials
-      if ((email.trim().toLowerCase() === 'admin@petal.com' && password === 'admin123') || (email.trim().length > 0 && password.length >= 4)) {
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('petal_admin_auth', 'true');
-        }
-        router.push('/admin/orders');
+      setErrorMsg('Invalid admin credentials. Please enter email & password.');
+      setLoading(false);
+    } catch (err: any) {
+      if (err?.status === 429 || err?.message?.toLowerCase().includes('rate limit')) {
+        setErrorMsg('Too many login attempts. Please wait 5 minutes before trying again.');
       } else {
-        setErrorMsg('Invalid admin credentials. Please enter email & password.');
-        setLoading(false);
+        setErrorMsg('An unexpected error occurred during login. Please try again.');
       }
-    } catch (err) {
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('petal_admin_auth', 'true');
-      }
-      router.push('/admin/orders');
+      setLoading(false);
     }
   };
 
@@ -119,6 +148,12 @@ export default function AdminLoginPage() {
               </div>
             </div>
 
+            {/* Cloudflare Turnstile Bot Protection Widget */}
+            <TurnstileWidget
+              onVerify={(token) => setCaptchaToken(token)}
+              onExpire={() => setCaptchaToken(null)}
+            />
+
             <button
               type="submit"
               disabled={loading}
@@ -134,15 +169,6 @@ export default function AdminLoginPage() {
               )}
             </button>
           </form>
-
-          {/* Quick Demo Access Note */}
-          <div className="p-4 rounded-2xl bg-rose-50/70 border border-rose-200/60 text-[11px] text-rose-900 space-y-1 text-center">
-            <span className="text-rose-700 font-bold flex items-center justify-center gap-1">
-              <Sparkles className="w-3 h-3" /> Quick Demo Access Mode Enabled
-            </span>
-            <p>Enter any email/password to sign into the admin preview dashboard.</p>
-          </div>
-
         </div>
 
         {/* Back Link */}

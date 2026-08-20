@@ -60,15 +60,44 @@ CREATE TABLE IF NOT EXISTS site_settings (
   logo_url TEXT DEFAULT ''
 );
 
--- Ensure single row constraint on site_settings
-CREATE UNIQUE INDEX IF NOT EXISTS site_settings_single_row_idx ON site_settings ((true));
+-- 7. Trusted Admin Users Table
+CREATE TABLE IF NOT EXISTS public.admin_users (
+  user_id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
 
--- 7. Enable Row Level Security (RLS)
+-- 8. SECURITY DEFINER is_admin() Helper Function
+-- Prevents RLS recursion when checking authorization
+CREATE OR REPLACE FUNCTION public.is_admin()
+RETURNS BOOLEAN
+LANGUAGE sql
+SECURITY DEFINER
+SET search_path = public, pg_temp
+STABLE
+AS $$
+  SELECT EXISTS (
+    SELECT 1
+    FROM public.admin_users
+    WHERE user_id = auth.uid()
+  );
+$$;
+
+GRANT EXECUTE ON FUNCTION public.is_admin() TO authenticated, anon;
+
+-- 9. Enable Row Level Security (RLS)
 ALTER TABLE categories ENABLE ROW LEVEL SECURITY;
 ALTER TABLE products ENABLE ROW LEVEL SECURITY;
 ALTER TABLE orders ENABLE ROW LEVEL SECURITY;
 ALTER TABLE order_items ENABLE ROW LEVEL SECURITY;
 ALTER TABLE site_settings ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.admin_users ENABLE ROW LEVEL SECURITY;
+
+-- Admin Users Policies
+CREATE POLICY "Admins can view admin_users" ON public.admin_users FOR SELECT TO authenticated USING (public.is_admin());
+CREATE POLICY "Admins can insert admin_users" ON public.admin_users FOR INSERT TO authenticated WITH CHECK (public.is_admin());
+CREATE POLICY "Admins can update admin_users" ON public.admin_users FOR UPDATE TO authenticated USING (public.is_admin()) WITH CHECK (public.is_admin());
+CREATE POLICY "Admins can delete admin_users" ON public.admin_users FOR DELETE TO authenticated USING (public.is_admin());
+
 
 -- Categories Policies
 CREATE POLICY "Public read categories" ON categories FOR SELECT USING (true);
@@ -93,7 +122,11 @@ CREATE POLICY "Public write order_items" ON order_items FOR ALL USING (true);
 CREATE POLICY "Public read site_settings" ON site_settings FOR SELECT USING (true);
 CREATE POLICY "Public write site_settings" ON site_settings FOR ALL USING (true);
 
--- 8. Seed Initial Data
+-- 10. Seed Initial Data
+INSERT INTO public.admin_users (user_id)
+VALUES ('6b7dca95-a9a5-4f39-8c67-6b39f31232bd')
+ON CONFLICT (user_id) DO NOTHING;
+
 INSERT INTO site_settings (contact_email, brand_name, tagline, logo_url)
 VALUES (
   'efaisal375@gmail.com',

@@ -13,7 +13,6 @@ import {
   Star,
   Loader2,
 } from 'lucide-react';
-
 interface ImageUploaderProps {
   images: string[];
   onChange: (images: string[]) => void;
@@ -21,7 +20,6 @@ interface ImageUploaderProps {
   label?: string;
   bucket?: string;
 }
-
 export default function ImageUploader({
   images = [],
   onChange,
@@ -38,13 +36,11 @@ export default function ImageUploader({
   const handleFiles = async (files: FileList | File[]) => {
     if (!files || files.length === 0) return;
     setUploading(true);
-
     try {
       const fileArray = Array.from(files);
       const uploadPromises = fileArray.map((file) => uploadImage(file, bucket));
       const rawUrls = await Promise.all(uploadPromises);
       const uploadedUrls = rawUrls.filter((url): url is string => typeof url === 'string' && url.trim().length > 0);
-
       if (uploadedUrls.length > 0) {
         if (multiple) {
           // Prepend new uploaded images so the newly uploaded file automatically becomes the cover image (index 0)
@@ -178,11 +174,10 @@ export default function ImageUploader({
         onDragOver={handleDrag}
         onDrop={handleDrop}
         onClick={() => fileInputRef.current?.click()}
-        className={`relative border-2 border-dashed rounded-2xl p-6 text-center cursor-pointer transition-all ${
-          dragActive
+        className={`relative border-2 border-dashed rounded-2xl p-6 text-center cursor-pointer transition-all ${dragActive
             ? 'border-rose-500 bg-rose-50'
             : 'border-rose-300/80 bg-cream-50/70 hover:bg-cream-100/80 hover:border-rose-400'
-        }`}
+          }`}
       >
         <input
           ref={fileInputRef}

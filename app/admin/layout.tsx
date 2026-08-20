@@ -46,8 +46,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         } catch (err) {}
       }
 
-      const localAuth = typeof window !== 'undefined' ? localStorage.getItem('petal_admin_auth') : null;
-      if (hasSession || localAuth === 'true') {
+      if (hasSession) {
         setIsAuthenticated(true);
       } else {
         setIsAuthenticated(false);
@@ -81,6 +80,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     }
     const supabase = createClient();
     if (supabase) supabase.auth.signOut();
+    setIsAuthenticated(false);
     router.push('/admin/login');
   };
 

@@ -8,6 +8,7 @@ import { getProductBySlug, getSiteSettings } from '@/lib/supabase/api';
 import { Product, SiteSettings } from '@/types/database';
 import { formatPKR } from '@/lib/utils';
 import { useCart } from '@/context/CartContext';
+import { validateCustomFields, sanitizeInput } from '@/lib/validation';
 import {
   Sparkles,
   ShoppingBag,
@@ -30,6 +31,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
   const [quantity, setQuantity] = useState<number>(1);
   const [customFormState, setCustomFormState] = useState<Record<string, string>>({});
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+  const [isAdded, setIsAdded] = useState(false);
 
   const { addItem } = useCart();
 
@@ -78,20 +80,22 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
     e.preventDefault();
     if (!product) return;
 
-    // Validate required fields
-    const errors: Record<string, string> = {};
-    product.custom_fields?.forEach((field) => {
-      if (field.required && !customFormState[field.name]?.trim()) {
-        errors[field.name] = `"${field.name}" is required to customize this product.`;
-      }
-    });
+    const validation = validateCustomFields(product.custom_fields || [], customFormState);
 
-    if (Object.keys(errors).length > 0) {
-      setFormErrors(errors);
+    if (!validation.isValid) {
+      setFormErrors(validation.errors);
       return;
     }
 
-    addItem(product, customFormState, quantity);
+    // Sanitize all custom field values before adding to cart
+    const sanitizedValues: Record<string, string> = {};
+    Object.keys(customFormState).forEach((key) => {
+      sanitizedValues[key] = sanitizeInput(customFormState[key]);
+    });
+
+    addItem(product, sanitizedValues, quantity);
+    setIsAdded(true);
+    setTimeout(() => setIsAdded(false), 2500);
   };
 
   if (loading) {

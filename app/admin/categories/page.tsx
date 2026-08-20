@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { getCategories, saveCategory, deleteCategory } from '@/lib/supabase/api';
 import { Category } from '@/types/database';
-import { slugify } from '@/lib/utils';
+import { validateCategoryInput, sanitizeInput, slugify } from '@/lib/validation';
 import ImageUploader from '@/components/ImageUploader';
 import { Grid, Plus, Edit2, Trash2, X, Image as ImageIcon } from 'lucide-react';
 
@@ -67,12 +67,27 @@ export default function AdminCategoriesPage() {
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const validation = validateCategoryInput({
+      name: formState.name,
+      slug: formState.slug,
+      imageUrl: formState.image_url,
+    });
+
+    if (!validation.isValid) {
+      alert(Object.values(validation.errors).join('\n'));
+      return;
+    }
+
     setSaving(true);
     try {
+      const cleanName = sanitizeInput(formState.name);
+      const cleanSlug = slugify(formState.slug || cleanName);
+
       await saveCategory({
         id: editingCategory?.id,
-        name: formState.name.trim(),
-        slug: formState.slug.trim(),
+        name: cleanName,
+        slug: cleanSlug,
         image_url: formState.image_url.trim(),
       });
       setModalOpen(false);
