@@ -51,7 +51,11 @@ function setMockData<T>(key: string, value: T): void {
 export async function getSiteSettings(): Promise<SiteSettings> {
   const supabase = createClient();
   if (supabase) {
-    const { data, error } = await supabase.from('site_settings').select('*').limit(1).single();
+    const { data, error } = await supabase
+      .from('site_settings')
+      .select('id, contact_email, brand_name, tagline, logo_url, created_at')
+      .limit(1)
+      .single();
     if (!error && data) {
       return {
         ...data,
@@ -95,7 +99,10 @@ export async function getCategories(): Promise<Category[]> {
   let dbCategories: Category[] = [];
 
   if (supabase) {
-    const { data, error } = await supabase.from('categories').select('*').order('name');
+    const { data, error } = await supabase
+      .from('categories')
+      .select('id, name, slug, image_url, created_at')
+      .order('name');
     if (!error && data) {
       dbCategories = data as Category[];
     }
@@ -200,7 +207,9 @@ export async function getProducts(options?: { activeOnly?: boolean; featuredOnly
   let dbProducts: Product[] = [];
 
   if (supabase) {
-    let query = supabase.from('products').select('*');
+    let query = supabase
+      .from('products')
+      .select('id, name, slug, description, price, image_urls, custom_fields, is_active, is_featured, category_id, created_at');
     if (options?.activeOnly) {
       query = query.eq('is_active', true);
     }
