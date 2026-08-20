@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { ShieldCheck, Lock } from 'lucide-react';
 
 interface TurnstileWidgetProps {
   onVerify: (token: string) => void;
@@ -10,10 +11,10 @@ interface TurnstileWidgetProps {
 
 export default function TurnstileWidget({ onVerify, onError, onExpire }: TurnstileWidgetProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
   const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
   useEffect(() => {
-    // If no site key is configured or dummy placeholder in dev mode, skip widget
     if (!siteKey || siteKey.includes('your-turnstile-site-key')) return;
 
     const scriptId = 'cf-turnstile-script';
@@ -45,12 +46,14 @@ export default function TurnstileWidget({ onVerify, onError, onExpire }: Turnsti
               if (isMounted) onExpire?.();
             },
             theme: 'light',
+            size: 'normal',
           });
+          if (isMounted) setIsLoaded(true);
         } catch (e) {
           console.warn('Turnstile render notice:', e);
         }
       } else {
-        setTimeout(renderWidget, 150);
+        setTimeout(renderWidget, 100);
       }
     };
 
@@ -66,8 +69,20 @@ export default function TurnstileWidget({ onVerify, onError, onExpire }: Turnsti
   }
 
   return (
-    <div className="flex justify-center my-3">
-      <div ref={containerRef} />
+    <div className="w-full min-h-[68px] h-[68px] my-2 rounded-2xl bg-rose-50/30 border border-rose-200/60 flex items-center justify-center relative overflow-hidden transition-all duration-300 shadow-inner">
+      {/* Smooth loading skeleton loader until Cloudflare script initializes */}
+      {!isLoaded && (
+        <div className="absolute inset-0 flex items-center justify-center gap-2 text-xs font-medium text-obsidian-800/60 bg-cream-50/80 animate-pulse">
+          <ShieldCheck className="w-4 h-4 text-rose-500 animate-bounce" />
+          <span>Initializing Security Verification...</span>
+        </div>
+      )}
+
+      {/* Cloudflare Turnstile Target Container */}
+      <div
+        ref={containerRef}
+        className={`transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+      />
     </div>
   );
 }

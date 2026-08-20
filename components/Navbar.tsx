@@ -60,7 +60,7 @@ export const Navbar: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           
           {/* Logo & Brand Name */}
-          <Link href="/" className="flex items-center gap-3 group">
+          <Link href="/" data-tour="storefront-brand" className="flex items-center gap-3 group">
             <Image
               src={settings.logo_url || '/logo.png'}
               alt="Petal & Ink Logo"
@@ -81,7 +81,7 @@ export const Navbar: React.FC = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav data-tour="storefront-nav" className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => {
               const isActive = pathname === link.href;
               return (
@@ -119,6 +119,7 @@ export const Navbar: React.FC = () => {
             {/* Cart Icon Link */}
             <Link
               href="/cart"
+              data-tour="storefront-cart"
               className="relative p-2.5 rounded-full bg-cream-200/80 hover:bg-rose-100/80 text-obsidian-900 transition-colors border border-rose-200/50"
               aria-label="View Cart"
             >

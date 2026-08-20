@@ -100,6 +100,7 @@ export const Footer: React.FC = () => {
               <div className="pt-2">
                 <Link
                   href="/admin"
+                  data-tour="storefront-admin-link"
                   className="inline-block text-xs px-3 py-1.5 rounded-lg bg-obsidian-800 text-rose-300 border border-rose-400/20 hover:bg-rose-950 transition-colors"
                 >
                   Admin Portal Login

@@ -19,12 +19,38 @@ import {
   Sparkles,
 } from 'lucide-react';
 
+import Coachmarks, { TourTriggerButton, TourStep } from '@/components/Coachmarks';
+
+const ADMIN_TOUR_STEPS: TourStep[] = [
+  {
+    target: '[data-tour="admin-orders"]',
+    title: 'Customer Orders Dashboard',
+    description: 'Track incoming guest orders, WhatsApp contact info, customer text inputs, and update fulfillment statuses.',
+  },
+  {
+    target: '[data-tour="admin-products"]',
+    title: 'Products & Customization Manager',
+    description: 'Create products, set PKR pricing, upload multiple product images, and define required custom input fields.',
+  },
+  {
+    target: '[data-tour="admin-categories"]',
+    title: 'Categories Manager',
+    description: 'Organize design collections (e.g. Wedding Suites, Floral Announcements, Greeting Cards).',
+  },
+  {
+    target: '[data-tour="admin-settings"]',
+    title: 'Storefront Site Settings',
+    description: 'Update studio brand name, contact support email, logo URL, and studio tagline live on the storefront.',
+  },
+];
+
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const [siteSettings, setSiteSettings] = useState<SiteSettings | null>(null);
+  const [tourOpen, setTourOpen] = useState(false);
 
   useEffect(() => {
     getSiteSettings().then((s) => {
@@ -48,6 +74,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
       if (hasSession) {
         setIsAuthenticated(true);
+        // Auto-trigger admin onboarding tour for first-time admin logins
+        if (typeof window !== 'undefined') {
+          const tourStatus = localStorage.getItem('petal_tour_admin');
+          if (!tourStatus) {
+            setTourOpen(true);
+          }
+        }
       } else {
         setIsAuthenticated(false);
         router.push('/admin/login');
@@ -85,10 +118,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   };
 
   const navItems = [
-    { name: 'Customer Orders', href: '/admin/orders', icon: ShoppingBag },
-    { name: 'Products Management', href: '/admin/products', icon: Package },
-    { name: 'Categories Manager', href: '/admin/categories', icon: Grid },
-    { name: 'Site Settings', href: '/admin/settings', icon: Settings },
+    { name: 'Customer Orders', href: '/admin/orders', icon: ShoppingBag, tourKey: 'admin-orders' },
+    { name: 'Products Management', href: '/admin/products', icon: Package, tourKey: 'admin-products' },
+    { name: 'Categories Manager', href: '/admin/categories', icon: Grid, tourKey: 'admin-categories' },
+    { name: 'Site Settings', href: '/admin/settings', icon: Settings, tourKey: 'admin-settings' },
   ];
 
   const logoSrc = siteSettings?.logo_url || '/logo.png';
@@ -155,6 +188,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 <Link
                   key={item.href}
                   href={item.href}
+                  data-tour={item.tourKey}
                   onClick={() => setSidebarOpen(false)}
                   className={`flex items-center gap-3 px-4 py-3 rounded-2xl text-xs font-semibold transition-all ${
                     isActive
@@ -197,6 +231,20 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <main className="flex-grow p-6 sm:p-10 overflow-y-auto">
         {children}
       </main>
+
+      {/* Interactive Admin Guided Tour */}
+      {pathname !== '/admin/login' && (
+        <>
+          <Coachmarks
+            steps={ADMIN_TOUR_STEPS}
+            tourKey="admin"
+            isOpen={tourOpen}
+            onClose={() => setTourOpen(false)}
+          />
+
+          <TourTriggerButton onClick={() => setTourOpen(true)} />
+        </>
+      )}
 
     </div>
   );

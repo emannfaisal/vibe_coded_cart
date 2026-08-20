@@ -40,6 +40,41 @@ const FLOATING_ELEMENTS = [
   { id: 7, type: 'envelope', src: '/images/floating/envelope.png', top: '56%', left: '56%', width: 95, rotate: '-10deg', opacity: 0.90, anim: 'animate-scatter-3', delay: '2.7s', dur: '4.3s', mobile: false }
 ];
 
+import Coachmarks, { TourTriggerButton, TourStep } from '@/components/Coachmarks';
+
+const STOREFRONT_TOUR_STEPS: TourStep[] = [
+  {
+    target: '[data-tour="storefront-brand"]',
+    title: 'Welcome to Petal & Ink Studio',
+    description: 'Bespoke custom digital invitations, greeting cards, and stationery handcrafted for your special moments.',
+  },
+  {
+    target: '[data-tour="storefront-nav"]',
+    title: 'Explore Shop & Categories',
+    description: 'Easily navigate through our shop catalog, custom design collections, and studio story.',
+  },
+  {
+    target: '[data-tour="storefront-catalog"]',
+    title: 'Curated Design Collections',
+    description: 'Filter by occasion — Wedding Suites, Floral Announcements, Greeting Cards, and Event Stationery.',
+  },
+  {
+    target: '[data-tour="storefront-how-it-works"]',
+    title: 'Personalized Custom Ordering',
+    description: 'Every design is custom-filled with your names, event date, venue, and special text before final delivery.',
+  },
+  {
+    target: '[data-tour="storefront-cart"]',
+    title: 'Shopping Cart & Guest Checkout',
+    description: 'View your customized order items and place your order smoothly with guest checkout.',
+  },
+  {
+    target: '[data-tour="storefront-admin-link"]',
+    title: 'Protected Admin Portal',
+    description: 'Studio admins can log in here to manage customer orders, products, categories, and settings.',
+  },
+];
+
 export default function HomePage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
@@ -50,6 +85,7 @@ export default function HomePage() {
     logo_url: '',
   });
   const [loading, setLoading] = useState(true);
+  const [tourOpen, setTourOpen] = useState(false);
 
   useEffect(() => {
     async function loadData() {
@@ -60,7 +96,6 @@ export default function HomePage() {
           getSiteSettings(),
         ]);
         setCategories(cats);
-        // Take featured products, or first 3 active products
         const featured = prods.filter((p) => p.is_featured);
         setFeaturedProducts(featured.length > 0 ? featured : prods.slice(0, 3));
         if (setts) setSettings(setts);
@@ -71,6 +106,14 @@ export default function HomePage() {
       }
     }
     loadData();
+
+    // Auto-open tour once for first-time visitors
+    if (typeof window !== 'undefined') {
+      const tourStatus = localStorage.getItem('petal_tour_storefront');
+      if (!tourStatus) {
+        setTourOpen(true);
+      }
+    }
   }, []);
 
   const mainFeatured = featuredProducts[0];
@@ -217,7 +260,7 @@ export default function HomePage() {
       </section>
 
       {/* Categories Showcase */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section data-tour="storefront-catalog" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto space-y-3 mb-12">
           <span className="text-xs font-semibold uppercase tracking-widest text-rose-600 block">
             <KineticTextReveal text="Curated Collections" splitBy="words" distance={10} delay={0.2} />
@@ -293,7 +336,7 @@ export default function HomePage() {
       </section>
 
       {/* How It Works Section */}
-      <section id="how-it-works" className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="how-it-works" data-tour="storefront-how-it-works" className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto space-y-3 mb-12">
           <span className="text-xs font-semibold uppercase tracking-widest text-rose-600 block">
             <KineticTextReveal text="Seamless & Personal" splitBy="words" distance={10} delay={0.2} />
@@ -401,6 +444,16 @@ export default function HomePage() {
           </a>
         </div>
       </section>
+
+      {/* Interactive Storefront Guided Tour */}
+      <Coachmarks
+        steps={STOREFRONT_TOUR_STEPS}
+        tourKey="storefront"
+        isOpen={tourOpen}
+        onClose={() => setTourOpen(false)}
+      />
+
+      <TourTriggerButton onClick={() => setTourOpen(true)} />
 
     </div>
   );
