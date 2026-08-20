@@ -7,8 +7,24 @@ import { useCart } from '@/context/CartContext';
 import { formatPKR } from '@/lib/utils';
 import { ShoppingBag, Trash2, ArrowRight, ArrowLeft, Sparkles, Plus, Minus } from 'lucide-react';
 
+import Coachmarks, { TourTriggerButton, TourStep } from '@/components/Coachmarks';
+
+const CART_TOUR_STEPS: TourStep[] = [
+  {
+    target: '[data-tour="cart-items-list"]',
+    title: 'Custom Order Items',
+    description: 'Review your customized product items, quantities, and submitted text details.',
+  },
+  {
+    target: '[data-tour="cart-checkout-btn"]',
+    title: 'Proceed to Guest Checkout',
+    description: 'Click here to proceed to guest checkout and submit your order.',
+  },
+];
+
 export default function CartPage() {
   const { items, removeItem, updateQuantity, clearCart, subtotal } = useCart();
+  const [tourOpen, setTourOpen] = React.useState(false);
 
   if (items.length === 0) {
     return (
@@ -58,7 +74,7 @@ export default function CartPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
         
         {/* Left: Item List */}
-        <div className="lg:col-span-8 space-y-6">
+        <div data-tour="cart-items-list" className="lg:col-span-8 space-y-6">
           {items.map((item) => {
             const product = item.product;
             const mainImg = product.image_urls?.[0] || 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800&auto=format&fit=crop';
@@ -175,6 +191,7 @@ export default function CartPage() {
 
           <Link
             href="/checkout"
+            data-tour="cart-checkout-btn"
             className="w-full py-4 rounded-2xl bg-obsidian-900 hover:bg-rose-700 text-cream-50 font-semibold text-sm tracking-wide shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-2"
           >
             <span>Proceed to Checkout</span>
@@ -187,6 +204,16 @@ export default function CartPage() {
         </div>
 
       </div>
+
+      {/* Page-Specific Coachmarks Guide Tour */}
+      <Coachmarks
+        steps={CART_TOUR_STEPS}
+        tourKey="cart"
+        isOpen={tourOpen}
+        onClose={() => setTourOpen(false)}
+      />
+
+      <TourTriggerButton onClick={() => setTourOpen(true)} />
 
     </div>
   );

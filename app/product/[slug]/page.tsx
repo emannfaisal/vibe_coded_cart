@@ -21,6 +21,26 @@ import {
   Minus,
 } from 'lucide-react';
 
+import Coachmarks, { TourTriggerButton, TourStep } from '@/components/Coachmarks';
+
+const PRODUCT_TOUR_STEPS: TourStep[] = [
+  {
+    target: '[data-tour="product-gallery"]',
+    title: 'High-Res Preview Gallery',
+    description: 'Preview the digital invitation layout in 105mm x 148mm print format.',
+  },
+  {
+    target: '[data-tour="product-custom-fields"]',
+    title: 'Personalize Customization Text',
+    description: 'Fill in your Bride & Groom names, event date, venue address, and special request notes.',
+  },
+  {
+    target: '[data-tour="product-add-to-cart-btn"]',
+    title: 'Add Customized Design to Cart',
+    description: 'Validates required text fields and saves your custom order to your cart.',
+  },
+];
+
 export default function ProductDetailPage({ params }: { params: { slug: string } }) {
   const paramsHook = useParams();
   const slug = params?.slug || (paramsHook?.slug as string);
@@ -32,6 +52,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
   const [customFormState, setCustomFormState] = useState<Record<string, string>>({});
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [isAdded, setIsAdded] = useState(false);
+  const [tourOpen, setTourOpen] = useState(false);
 
   const { addItem } = useCart();
 
@@ -145,7 +166,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
         <div className="lg:col-span-7 space-y-4">
           
           {/* Main Large 105mm x 148mm Print Display Frame */}
-          <div className="relative aspect-[105/148] max-w-lg mx-auto w-full rounded-3xl overflow-hidden bg-rose-50/50 border border-rose-200/70 shadow-xl p-4 flex items-center justify-center">
+          <div data-tour="product-gallery" className="relative aspect-[105/148] max-w-lg mx-auto w-full rounded-3xl overflow-hidden bg-rose-50/50 border border-rose-200/70 shadow-xl p-4 flex items-center justify-center">
             <Image
               src={selectedImage}
               alt={product.name}
@@ -216,7 +237,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
           {/* Dynamic Customization Form */}
           <form onSubmit={handleAddToCart} className="space-y-6 pt-2">
             
-            <div className="p-6 rounded-3xl bg-white border border-rose-200/80 shadow-soft space-y-5">
+            <div data-tour="product-custom-fields" className="p-6 rounded-3xl bg-white border border-rose-200/80 shadow-soft space-y-5">
               <div className="flex items-center justify-between border-b border-rose-100 pb-3">
                 <h3 className="font-serif text-lg font-bold text-obsidian-900 flex items-center gap-2">
                   <Sparkles className="w-4 h-4 text-rose-500" />
@@ -294,6 +315,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
             {/* Add to Cart CTA */}
             <button
               type="submit"
+              data-tour="product-add-to-cart-btn"
               className="w-full py-4 rounded-2xl bg-obsidian-900 hover:bg-rose-700 text-cream-50 font-semibold text-sm tracking-wide shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-3"
             >
               <ShoppingBag className="w-5 h-5 text-rose-300" />
@@ -305,6 +327,16 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
         </div>
 
       </div>
+
+      {/* Page-Specific Coachmarks Guide Tour */}
+      <Coachmarks
+        steps={PRODUCT_TOUR_STEPS}
+        tourKey="product_customizer"
+        isOpen={tourOpen}
+        onClose={() => setTourOpen(false)}
+      />
+
+      <TourTriggerButton onClick={() => setTourOpen(true)} />
 
     </div>
   );

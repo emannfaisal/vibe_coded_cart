@@ -22,6 +22,20 @@ import {
 } from 'lucide-react';
 
 import { validateCheckoutInput, sanitizeInput } from '@/lib/validation';
+import Coachmarks, { TourTriggerButton, TourStep } from '@/components/Coachmarks';
+
+const CHECKOUT_TOUR_STEPS: TourStep[] = [
+  {
+    target: '[data-tour="checkout-form"]',
+    title: 'Customer Contact Information',
+    description: 'Enter your Full Name and WhatsApp phone number so designer files can be delivered to you.',
+  },
+  {
+    target: '[data-tour="checkout-summary"]',
+    title: 'Order Item Summary & Total',
+    description: 'Review custom items, customized text choices, and total PKR amount payable.',
+  },
+];
 
 export default function CheckoutPage() {
   const { items, subtotal, clearCart } = useCart();
@@ -42,6 +56,7 @@ export default function CheckoutPage() {
   const [submitting, setSubmitting] = useState(false);
   const [completedOrder, setCompletedOrder] = useState<Order | null>(null);
   const [copiedEmail, setCopiedEmail] = useState(false);
+  const [tourOpen, setTourOpen] = useState(false);
 
   useEffect(() => {
     getSiteSettings().then(setSettings);
@@ -257,7 +272,7 @@ export default function CheckoutPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
         
         {/* Contact Information Form */}
-        <div className="lg:col-span-7">
+        <div data-tour="checkout-form" className="lg:col-span-7">
           <form onSubmit={handleSubmit} className="p-8 rounded-3xl bg-white border border-rose-200/80 shadow-soft space-y-6">
             
             <div className="border-b border-rose-100 pb-4">
@@ -376,7 +391,7 @@ export default function CheckoutPage() {
         </div>
 
         {/* Order Summary Sidebar */}
-        <div className="lg:col-span-5 p-8 rounded-3xl bg-white border border-rose-200/80 shadow-soft space-y-6">
+        <div data-tour="checkout-summary" className="lg:col-span-5 p-8 rounded-3xl bg-white border border-rose-200/80 shadow-soft space-y-6">
           <h3 className="font-serif text-xl font-bold text-obsidian-950 border-b border-rose-100 pb-3">
             Items in Your Order ({items.length})
           </h3>
@@ -419,6 +434,16 @@ export default function CheckoutPage() {
         </div>
 
       </div>
+
+      {/* Page-Specific Coachmarks Guide Tour */}
+      <Coachmarks
+        steps={CHECKOUT_TOUR_STEPS}
+        tourKey="checkout"
+        isOpen={tourOpen}
+        onClose={() => setTourOpen(false)}
+      />
+
+      <TourTriggerButton onClick={() => setTourOpen(true)} />
 
     </div>
   );

@@ -20,10 +20,36 @@ import {
   Layers,
 } from 'lucide-react';
 
+import Coachmarks, { TourTriggerButton, TourStep } from '@/components/Coachmarks';
+
+const ADMIN_PRODUCTS_TOUR_STEPS: TourStep[] = [
+  {
+    target: '[data-tour="admin-products-header"]',
+    title: 'Products Management Suite',
+    description: 'Overview of all custom wedding invitation suites, greeting cards, and stationery products.',
+  },
+  {
+    target: '[data-tour="admin-create-product-btn"]',
+    title: 'Create New Design Product',
+    description: 'Click here to create a new design suite with custom text fields, price in PKR, and images.',
+  },
+  {
+    target: '[data-tour="admin-product-card"]',
+    title: 'Product Information & Pricing',
+    description: 'Displays PKR price, assigned category, featured status badge, and custom field count.',
+  },
+  {
+    target: '[data-tour="admin-product-actions"]',
+    title: 'Product Action Controls',
+    description: 'Toggle visibility (Active/Hidden) on the storefront, edit product customization options, or delete.',
+  },
+];
+
 export default function AdminProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
+  const [tourOpen, setTourOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
 
@@ -204,7 +230,7 @@ export default function AdminProductsPage() {
     <div className="space-y-8 max-w-7xl mx-auto">
       
       {/* Top Bar */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-rose-200/60 pb-6">
+      <div data-tour="admin-products-header" className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-rose-200/60 pb-6">
         <div>
           <h1 className="font-serif text-3xl font-bold text-obsidian-950">Products Management</h1>
           <p className="text-xs text-obsidian-800/70 mt-1">
@@ -214,6 +240,7 @@ export default function AdminProductsPage() {
 
         <button
           onClick={openCreateModal}
+          data-tour="admin-create-product-btn"
           className="px-5 py-3 rounded-2xl bg-rose-600 hover:bg-rose-700 text-white font-semibold text-xs transition-all shadow-lg shadow-rose-600/20 flex items-center gap-2"
         >
           <Plus className="w-4 h-4" />
@@ -241,9 +268,10 @@ export default function AdminProductsPage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-4">
-          {products.map((prod) => (
+          {products.map((prod, idx) => (
             <div
               key={prod.id}
+              data-tour={idx === 0 ? 'admin-product-card' : undefined}
               className={`p-6 rounded-3xl bg-white border transition-all flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-soft hover:shadow-elevated ${
                 prod.is_active ? 'border-rose-200/80' : 'border-rose-200/40 opacity-60'
               }`}
@@ -278,7 +306,7 @@ export default function AdminProductsPage() {
               </div>
 
               {/* Controls */}
-              <div className="flex items-center gap-3 w-full md:w-auto justify-end">
+              <div data-tour={idx === 0 ? 'admin-product-actions' : undefined} className="flex items-center gap-3 w-full md:w-auto justify-end">
                 <button
                   onClick={() => handleToggleActive(prod)}
                   className={`px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-colors border ${
@@ -516,6 +544,16 @@ export default function AdminProductsPage() {
           </div>
         </div>
       )}
+
+      {/* Page-Specific Coachmarks Guide Tour */}
+      <Coachmarks
+        steps={ADMIN_PRODUCTS_TOUR_STEPS}
+        tourKey="admin_products"
+        isOpen={tourOpen}
+        onClose={() => setTourOpen(false)}
+      />
+
+      <TourTriggerButton onClick={() => setTourOpen(true)} />
 
     </div>
   );

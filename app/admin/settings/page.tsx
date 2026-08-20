@@ -7,6 +7,31 @@ import { validateSiteSettingsInput, sanitizeInput } from '@/lib/validation';
 import ImageUploader from '@/components/ImageUploader';
 import { Settings, Save, Mail, Tag, Sparkles, CheckCircle2 } from 'lucide-react';
 
+import Coachmarks, { TourTriggerButton, TourStep } from '@/components/Coachmarks';
+
+const ADMIN_SETTINGS_TOUR_STEPS: TourStep[] = [
+  {
+    target: '[data-tour="admin-settings-header"]',
+    title: 'Storefront Site Settings',
+    description: 'Configure public studio branding, contact email, logo, and tagline.',
+  },
+  {
+    target: '[data-tour="admin-settings-email"]',
+    title: 'Studio Contact Email',
+    description: 'Recipient email address displayed on storefront checkout.',
+  },
+  {
+    target: '[data-tour="admin-settings-brand"]',
+    title: 'Brand Name & Tagline',
+    description: 'Custom brand name and tagline updated live across header & footer.',
+  },
+  {
+    target: '[data-tour="admin-settings-save-btn"]',
+    title: 'Save & Publish',
+    description: 'Click to save settings and apply changes live across the entire application.',
+  },
+];
+
 export default function AdminSettingsPage() {
   const [formState, setFormState] = useState<SiteSettings>({
     contact_email: 'efaisal375@gmail.com',
@@ -18,6 +43,7 @@ export default function AdminSettingsPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [successMsg, setSuccessMsg] = useState(false);
+  const [tourOpen, setTourOpen] = useState(false);
 
   useEffect(() => {
     getSiteSettings().then((res) => {
@@ -63,7 +89,7 @@ export default function AdminSettingsPage() {
   return (
     <div className="space-y-8 max-w-4xl mx-auto">
       
-      <div className="border-b border-rose-200/60 pb-6">
+      <div data-tour="admin-settings-header" className="border-b border-rose-200/60 pb-6">
         <h1 className="font-serif text-3xl font-bold text-obsidian-950">Storefront Site Settings</h1>
         <p className="text-xs text-obsidian-800/70 mt-1">
           Configure contact email, brand name, logo image, and studio tagline across the public storefront.
@@ -82,7 +108,7 @@ export default function AdminSettingsPage() {
       ) : (
         <form onSubmit={handleSubmit} className="p-8 rounded-3xl bg-white border border-rose-200/80 space-y-6 shadow-soft text-obsidian-950">
           
-          <div className="space-y-1.5">
+          <div data-tour="admin-settings-email" className="space-y-1.5">
             <label className="block text-xs font-semibold text-obsidian-900">
               Studio Contact Email *
             </label>
@@ -101,7 +127,7 @@ export default function AdminSettingsPage() {
             </div>
           </div>
 
-          <div className="space-y-1.5">
+          <div data-tour="admin-settings-brand" className="space-y-1.5">
             <label className="block text-xs font-semibold text-obsidian-900">
               Store Brand Name *
             </label>
@@ -157,6 +183,7 @@ export default function AdminSettingsPage() {
             <button
               type="submit"
               disabled={saving}
+              data-tour="admin-settings-save-btn"
               className="px-8 py-3.5 rounded-2xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold shadow-lg shadow-rose-600/20 transition-all flex items-center gap-2"
             >
               <Save className="w-4 h-4" />
@@ -166,6 +193,16 @@ export default function AdminSettingsPage() {
 
         </form>
       )}
+
+      {/* Page-Specific Coachmarks Guide Tour */}
+      <Coachmarks
+        steps={ADMIN_SETTINGS_TOUR_STEPS}
+        tourKey="admin_settings"
+        isOpen={tourOpen}
+        onClose={() => setTourOpen(false)}
+      />
+
+      <TourTriggerButton onClick={() => setTourOpen(true)} />
 
     </div>
   );

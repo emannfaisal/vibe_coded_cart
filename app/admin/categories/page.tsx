@@ -7,11 +7,32 @@ import { validateCategoryInput, sanitizeInput, slugify } from '@/lib/validation'
 import ImageUploader from '@/components/ImageUploader';
 import { Grid, Plus, Edit2, Trash2, X, Image as ImageIcon } from 'lucide-react';
 
+import Coachmarks, { TourTriggerButton, TourStep } from '@/components/Coachmarks';
+
+const ADMIN_CATEGORIES_TOUR_STEPS: TourStep[] = [
+  {
+    target: '[data-tour="admin-categories-header"]',
+    title: 'Categories Manager',
+    description: 'Organize design collections into dynamic catalog categories.',
+  },
+  {
+    target: '[data-tour="admin-create-category-btn"]',
+    title: 'Add New Category',
+    description: 'Click here to create a new category collection with custom title, slug, and thumbnail.',
+  },
+  {
+    target: '[data-tour="admin-category-card"]',
+    title: 'Category Card & Controls',
+    description: 'Displays category title, slug, thumbnail image, edit controls, and delete option.',
+  },
+];
+
 export default function AdminCategoriesPage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
+  const [tourOpen, setTourOpen] = useState(false);
 
   const [formState, setFormState] = useState({
     name: '',
@@ -108,7 +129,7 @@ export default function AdminCategoriesPage() {
   return (
     <div className="space-y-8 max-w-7xl mx-auto">
       
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-rose-200/60 pb-6">
+      <div data-tour="admin-categories-header" className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-rose-200/60 pb-6">
         <div>
           <h1 className="font-serif text-3xl font-bold text-obsidian-950">Categories Management</h1>
           <p className="text-xs text-obsidian-800/70 mt-1">
@@ -118,6 +139,7 @@ export default function AdminCategoriesPage() {
 
         <button
           onClick={openCreateModal}
+          data-tour="admin-create-category-btn"
           className="px-5 py-3 rounded-2xl bg-rose-600 hover:bg-rose-700 text-white font-semibold text-xs transition-all shadow-lg shadow-rose-600/20 flex items-center gap-2"
         >
           <Plus className="w-4 h-4" />
@@ -139,9 +161,10 @@ export default function AdminCategoriesPage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {categories.map((cat) => (
+          {categories.map((cat, idx) => (
             <div
               key={cat.id}
+              data-tour={idx === 0 ? 'admin-category-card' : undefined}
               className="p-5 rounded-3xl bg-white border border-rose-200/80 space-y-4 flex flex-col justify-between shadow-soft hover:shadow-elevated transition-all"
             >
               <div className="flex items-center gap-4">
@@ -252,6 +275,16 @@ export default function AdminCategoriesPage() {
           </div>
         </div>
       )}
+
+      {/* Page-Specific Coachmarks Guide Tour */}
+      <Coachmarks
+        steps={ADMIN_CATEGORIES_TOUR_STEPS}
+        tourKey="admin_categories"
+        isOpen={tourOpen}
+        onClose={() => setTourOpen(false)}
+      />
+
+      <TourTriggerButton onClick={() => setTourOpen(true)} />
 
     </div>
   );

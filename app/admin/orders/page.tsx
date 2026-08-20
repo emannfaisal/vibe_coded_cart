@@ -18,12 +18,38 @@ import {
   FileText,
 } from 'lucide-react';
 
+import Coachmarks, { TourTriggerButton, TourStep } from '@/components/Coachmarks';
+
+const ADMIN_ORDERS_TOUR_STEPS: TourStep[] = [
+  {
+    target: '[data-tour="admin-orders-header"]',
+    title: 'Customer Orders Manager',
+    description: 'Review incoming customer orders, payment status, and order details.',
+  },
+  {
+    target: '[data-tour="admin-orders-filters"]',
+    title: 'Filter & Search Orders',
+    description: 'Quickly filter orders by status (Pending, Confirmed, In Progress, Delivered) or search customer names.',
+  },
+  {
+    target: '[data-tour="admin-order-card"]',
+    title: 'Customer Order Card',
+    description: 'Displays customer name, WhatsApp phone number, order items, custom text values, and total PKR.',
+  },
+  {
+    target: '[data-tour="admin-order-status-btn"]',
+    title: 'Update Order Fulfillment Status',
+    description: 'Click to advance order status from Pending -> Confirmed -> In Progress -> Delivered.',
+  },
+];
+
 export default function AdminOrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [updatingId, setUpdatingId] = useState<string | null>(null);
+  const [tourOpen, setTourOpen] = useState(false);
 
   const loadOrders = async () => {
     setLoading(true);
@@ -95,7 +121,7 @@ export default function AdminOrdersPage() {
     <div className="space-y-8 max-w-7xl mx-auto">
       
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-rose-200/60 pb-6">
+      <div data-tour="admin-orders-header" className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-rose-200/60 pb-6">
         <div>
           <h1 className="font-serif text-3xl font-bold text-obsidian-950">Customer Orders</h1>
           <p className="text-xs text-obsidian-800/70 mt-1">
@@ -137,7 +163,7 @@ export default function AdminOrdersPage() {
       </div>
 
       {/* Filter & Search Bar */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div data-tour="admin-orders-filters" className="flex flex-col sm:flex-row items-center justify-between gap-4">
         {/* Search */}
         <div className="relative w-full sm:w-80">
           <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-obsidian-800/40" />
@@ -183,9 +209,10 @@ export default function AdminOrdersPage() {
         </div>
       ) : (
         <div className="space-y-6">
-          {filteredOrders.map((order) => (
+          {filteredOrders.map((order, idx) => (
             <div
               key={order.id}
+              data-tour={idx === 0 ? 'admin-order-card' : undefined}
               className="p-6 rounded-3xl bg-white border border-rose-200/80 space-y-6 shadow-soft"
             >
               
@@ -205,7 +232,7 @@ export default function AdminOrdersPage() {
                 {/* Status Dropdown */}
                 <div className="flex items-center gap-3">
                   <span className="text-xs text-obsidian-800/70 font-medium">Status:</span>
-                  <div className="relative">
+                  <div className="relative" data-tour={idx === 0 ? 'admin-order-status-btn' : undefined}>
                     <select
                       value={order.status}
                       disabled={updatingId === order.id}
@@ -306,6 +333,16 @@ export default function AdminOrdersPage() {
           ))}
         </div>
       )}
+
+      {/* Page-Specific Coachmarks Guide Tour */}
+      <Coachmarks
+        steps={ADMIN_ORDERS_TOUR_STEPS}
+        tourKey="admin_orders"
+        isOpen={tourOpen}
+        onClose={() => setTourOpen(false)}
+      />
+
+      <TourTriggerButton onClick={() => setTourOpen(true)} />
 
     </div>
   );

@@ -7,6 +7,26 @@ import { Category, Product } from '@/types/database';
 import { ProductCard } from '@/components/ProductCard';
 import { Search, SlidersHorizontal, Sparkles, X } from 'lucide-react';
 
+import Coachmarks, { TourTriggerButton, TourStep } from '@/components/Coachmarks';
+
+const SHOP_TOUR_STEPS: TourStep[] = [
+  {
+    target: '[data-tour="shop-search-bar"]',
+    title: 'Search & Sort Catalog',
+    description: 'Search for specific design keywords or sort by price (Low to High / High to Low).',
+  },
+  {
+    target: '[data-tour="shop-category-pills"]',
+    title: 'Filter by Collection',
+    description: 'Filter products by occasion pills e.g. All, Wedding Invitations, Greeting Cards.',
+  },
+  {
+    target: '[data-tour="shop-product-grid"]',
+    title: 'Custom Product Cards',
+    description: 'Click any design card to open its high-res customization suite and personalize your text.',
+  },
+];
+
 function ShopContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -18,6 +38,7 @@ function ShopContent() {
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<'featured' | 'price-asc' | 'price-desc'>('featured');
+  const [tourOpen, setTourOpen] = useState(false);
 
   useEffect(() => {
     async function loadData() {
@@ -105,7 +126,7 @@ function ShopContent() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           
           {/* Search Input */}
-          <div className="relative w-full md:w-80">
+          <div data-tour="shop-search-bar" className="relative w-full md:w-80">
             <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-obsidian-800/50" />
             <input
               type="text"
@@ -142,7 +163,7 @@ function ShopContent() {
         </div>
 
         {/* Dynamic Category Filter Pills */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+        <div data-tour="shop-category-pills" className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
           <button
             onClick={() => handleCategoryChange('all')}
             className={`px-5 py-2.5 rounded-full text-xs font-semibold transition-all shrink-0 ${
@@ -202,12 +223,22 @@ function ShopContent() {
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div data-tour="shop-product-grid" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
       )}
+
+      {/* Page-Specific Coachmarks Guide Tour */}
+      <Coachmarks
+        steps={SHOP_TOUR_STEPS}
+        tourKey="shop"
+        isOpen={tourOpen}
+        onClose={() => setTourOpen(false)}
+      />
+
+      <TourTriggerButton onClick={() => setTourOpen(true)} />
 
     </div>
   );
